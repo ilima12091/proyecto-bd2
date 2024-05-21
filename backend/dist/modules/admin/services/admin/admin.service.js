@@ -19,7 +19,7 @@ let AdminService = class AdminService {
         this.pgClient = pgClient;
     }
     async getAll() {
-        const { rows } = await this.pgClient.query('SELECT * FROM admin');
+        const { rows } = await this.pgClient.query('SELECT * FROM administrador');
         return rows;
     }
 };
