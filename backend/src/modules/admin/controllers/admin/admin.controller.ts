@@ -13,12 +13,7 @@ export class AdminController {
 
   @Post()
   async create(@Body() createAdminDto: CreateAdminDto) {
-    console.log('body: ', createAdminDto);
-    return {
-      id: 1,
-      name: 'Admin',
-      email: '',
-    };
+    return await this.adminService.create(createAdminDto);
   }
 
   @Delete('/:id')
