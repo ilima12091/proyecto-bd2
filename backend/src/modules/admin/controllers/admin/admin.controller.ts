@@ -1,6 +1,6 @@
-import { Controller, Delete, Get, Post, Req } from '@nestjs/common';
-import { FastifyRequest } from 'fastify';
+import { Body, Controller, Delete, Get, Post, Req } from '@nestjs/common';
 import { AdminService } from '../../services/admin/admin.service';
+import { CreateAdminDto } from '../../dtos/create-admin.dto';
 
 @Controller('admin')
 export class AdminController {
@@ -12,8 +12,8 @@ export class AdminController {
   }
 
   @Post()
-  async create(@Req() req: FastifyRequest) {
-    console.log('body: ', req.body);
+  async create(@Body() createAdminDto: CreateAdminDto) {
+    console.log('body: ', createAdminDto);
     return {
       id: 1,
       name: 'Admin',
