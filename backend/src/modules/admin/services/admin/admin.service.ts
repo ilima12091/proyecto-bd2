@@ -1,29 +1,29 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { PoolClient } from 'pg';
+import { Injectable } from '@nestjs/common';
 import { CreateAdminDto } from '../../dtos/create-admin.dto';
 import { AdminModel } from '../../models/admin.model';
 
 @Injectable()
 export class AdminService {
-  constructor(
-    @Inject('PG_CONNECTION') private readonly pgClient: PoolClient,
-    private adminModel: AdminModel,
-  ) {}
+  constructor(private adminModel: AdminModel) {}
 
   async getAll() {
     return await this.adminModel.getAll();
   }
 
   async create(createAdminDto: CreateAdminDto) {
-    const { nombre, apellido, email, contraseña } = createAdminDto;
+    const { name, surname, password, email } = createAdminDto;
 
     const insertData = await this.adminModel.create(
-      nombre,
-      apellido,
+      name,
+      surname,
       email,
-      contraseña,
+      password,
     );
 
     return insertData;
+  }
+
+  async delete(id: number) {
+    return await this.adminModel.delete(id);
   }
 }

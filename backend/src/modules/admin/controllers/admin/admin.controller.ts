@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { AdminService } from '../../services/admin/admin.service';
 import { CreateAdminDto } from '../../dtos/create-admin.dto';
 
@@ -17,11 +17,7 @@ export class AdminController {
   }
 
   @Delete('/:id')
-  async delete() {
-    return {
-      id: 1,
-      name: 'Admin',
-      email: '',
-    };
+  async delete(@Param('id') id: number) {
+    return await this.adminService.delete(id);
   }
 }
