@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS Area CASCADE;
 DROP TABLE IF EXISTS Alumno CASCADE;
 DROP TABLE IF EXISTS Administrador CASCADE;
 DROP TABLE IF EXISTS Usuario CASCADE;
+DROP TABLE IF EXISTS Torneo CASCADE;
 
 -- Tabla Usuario
 CREATE TABLE Usuario (
@@ -121,4 +122,11 @@ CREATE TABLE EsSubcampeon (
     idEquipo INT REFERENCES Equipo(id),
     idAlumno INT REFERENCES Alumno(id),
     puntosObtenidos INT DEFAULT NULL
+);
+
+-- Tabla Torneo
+CREATE TABLE Torneo (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    equipoId INT unique references Equipo(id)
 );
