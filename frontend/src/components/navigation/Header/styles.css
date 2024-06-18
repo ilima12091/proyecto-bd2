@@ -1,0 +1,36 @@
+.header {
+  width: 100%;
+  min-height: 50px;
+  background-color: var(--primary-color);
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.header-logo {
+  max-width: 200px;
+  height: 100%;
+}
+
+.header-items {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  list-style: none;
+}
+
+.header-item {
+  color: var(--secondary-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.1s;
+}
+
+.header-item:hover {
+  transform: translateY(-2px);
+}
+
+.header-item--active {
+  text-decoration: underline;
+}
