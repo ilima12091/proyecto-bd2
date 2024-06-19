@@ -1,11 +1,16 @@
+<<<<<<< HEAD
 "use client";
 import React, { useMemo, useState } from "react";
+=======
+import React from "react";
+>>>>>>> 2ce0e06 (Se agrega parte de la pantalla de predicciones y el módulo de predicciones sin terminar en el backend)
 import { Prediction } from "@/types/Prediction";
 
 import "./styles.css";
 import Image from "next/image";
 import { getFormattedDate } from "@/utils/dateUtils";
 import { findFlagUrlByCountryName } from "country-flags-svg";
+<<<<<<< HEAD
 import Button from "@/components/Button/Button";
 import { createPrediction } from "@/services/predictionsService";
 import { isNullOrUndefined } from "@/utils/numberUtils";
@@ -15,6 +20,10 @@ type PredictionProps = Prediction & {
 };
 
 export default function PredictionItem(props: Readonly<PredictionProps>) {
+=======
+
+export default function PredictionItem(props: Readonly<Prediction>) {
+>>>>>>> 2ce0e06 (Se agrega parte de la pantalla de predicciones y el módulo de predicciones sin terminar en el backend)
   const {
     home,
     away,
@@ -24,6 +33,7 @@ export default function PredictionItem(props: Readonly<PredictionProps>) {
     awayGoals,
     awayPrediction,
     stage,
+<<<<<<< HEAD
     matchId,
     refetchData,
     homeFlag = findFlagUrlByCountryName(home),
@@ -91,12 +101,24 @@ export default function PredictionItem(props: Readonly<PredictionProps>) {
 
     return "";
   }, [homeGoals, awayGoals, homePrediction, awayPrediction]);
+=======
+  } = props;
+
+  const disableInputs = new Date(date) < new Date();
+
+  const homeFlag = findFlagUrlByCountryName(home);
+  const awayFlag = findFlagUrlByCountryName(away);
+>>>>>>> 2ce0e06 (Se agrega parte de la pantalla de predicciones y el módulo de predicciones sin terminar en el backend)
 
   return (
     <div className="prediction">
       <div className="prediction-country">
         <Image
+<<<<<<< HEAD
           alt={home}
+=======
+          alt="Uruguay"
+>>>>>>> 2ce0e06 (Se agrega parte de la pantalla de predicciones y el módulo de predicciones sin terminar en el backend)
           src={homeFlag}
           className="prediction-flag"
           width={80}
@@ -106,17 +128,26 @@ export default function PredictionItem(props: Readonly<PredictionProps>) {
       </div>
       <input
         className={`prediction-input ${
+<<<<<<< HEAD
           isMatchFinished ? "prediction-input--disabled" : ""
         }`}
         maxLength={2}
         disabled={isMatchFinished}
         value={predictionValues?.homeGoals}
         onChange={(e) => handleChange("home", e.target.value)}
+=======
+          disableInputs ? "prediction-input--disabled" : ""
+        }`}
+        maxLength={2}
+        disabled={disableInputs}
+        defaultValue={homeGoals ?? homePrediction ?? ""}
+>>>>>>> 2ce0e06 (Se agrega parte de la pantalla de predicciones y el módulo de predicciones sin terminar en el backend)
       />
       <div className="prediction-info">
         <p>VS</p>
         <p>{getFormattedDate(date)}</p>
         <p>{stage}</p>
+<<<<<<< HEAD
         {showSaveButton ? <Button onClick={handleSave} label="Guardar" /> : null}
         <p className={`prediction-result prediction-result-${resultStatus}`}>
           {matchResult}
@@ -134,6 +165,20 @@ export default function PredictionItem(props: Readonly<PredictionProps>) {
       <div className="prediction-country">
         <Image
           alt={away}
+=======
+      </div>
+      <input
+        className={`prediction-input ${
+          disableInputs ? "prediction-input--disabled" : ""
+        }`}
+        maxLength={2}
+        disabled={disableInputs}
+        defaultValue={awayGoals ?? awayPrediction ?? ""}
+      />
+      <div className="prediction-country">
+        <Image
+          alt="Argentina"
+>>>>>>> 2ce0e06 (Se agrega parte de la pantalla de predicciones y el módulo de predicciones sin terminar en el backend)
           src={awayFlag}
           className="prediction-flag"
           width={80}
