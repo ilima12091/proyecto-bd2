@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Prediction } from "@/types/Prediction";
 
 import "./styles.css";
@@ -8,7 +8,7 @@ import { getFormattedDate } from "@/utils/dateUtils";
 import { findFlagUrlByCountryName } from "country-flags-svg";
 import Button from "@/components/Button/Button";
 import { createPrediction } from "@/services/predictionsService";
-import { useRouter } from "next/navigation";
+import { isNullOrUndefined } from "@/utils/numberUtils";
 
 type PredictionProps = Prediction & {
   refetchData: () => void;
@@ -32,8 +32,8 @@ export default function PredictionItem(props: Readonly<PredictionProps>) {
   const awayFlag = findFlagUrlByCountryName(away);
 
   const [predictionValues, setPredictionValues] = useState({
-    homeGoals: homeGoals ?? homePrediction ?? "",
-    awayGoals: awayGoals ?? awayPrediction ?? "",
+    homeGoals: homePrediction ?? "-",
+    awayGoals: awayPrediction ?? "-",
   });
 
   const handleChange = (team: "home" | "away", value: string) => {
@@ -57,14 +57,41 @@ export default function PredictionItem(props: Readonly<PredictionProps>) {
     }
   };
 
-  const disableInputs = new Date(date) < new Date();
+  const isMatchFinished = new Date(date) < new Date();
 
   const showSaveButton =
-    predictionValues.homeGoals &&
-    predictionValues.awayGoals &&
-    (predictionValues.homeGoals !== homePrediction ||
-      predictionValues.awayGoals !== awayPrediction) &&
-    !disableInputs;
+    !isNullOrUndefined(predictionValues.homeGoals) &&
+    !isNullOrUndefined(predictionValues.awayGoals) &&
+    (+predictionValues.homeGoals !== +homePrediction ||
+      +predictionValues.awayGoals !== +awayPrediction) &&
+    !isMatchFinished;
+
+  const matchResult = useMemo(() => {
+    if ((isNullOrUndefined(homeGoals) || isNullOrUndefined(awayGoals)) && isMatchFinished)
+      return "Esperando resultado";
+
+    if (isMatchFinished) return `${homeGoals} - ${awayGoals}`;
+
+    return "Por jugar";
+  }, [homeGoals, awayGoals, isMatchFinished]);
+
+  const resultStatus = useMemo(() => {
+    if (isNullOrUndefined(homePrediction) || isNullOrUndefined(awayPrediction))
+      return "failed";
+    if (homeGoals === homePrediction && awayGoals === awayPrediction) return "success";
+    if (homeGoals > awayGoals && homePrediction > awayPrediction)
+      return "partial-success";
+    if (homeGoals < awayGoals && homePrediction < awayPrediction)
+      return "partial-success";
+    if (
+      homeGoals === awayGoals &&
+      homePrediction === awayPrediction &&
+      (homePrediction > awayPrediction || homePrediction < awayPrediction)
+    )
+      return "partial-success";
+
+    return "";
+  }, [homeGoals, awayGoals, homePrediction, awayPrediction]);
 
   return (
     <div className="prediction">
@@ -80,10 +107,10 @@ export default function PredictionItem(props: Readonly<PredictionProps>) {
       </div>
       <input
         className={`prediction-input ${
-          disableInputs ? "prediction-input--disabled" : ""
+          isMatchFinished ? "prediction-input--disabled" : ""
         }`}
         maxLength={2}
-        disabled={disableInputs}
+        disabled={isMatchFinished}
         value={predictionValues?.homeGoals}
         onChange={(e) => handleChange("home", e.target.value)}
       />
@@ -92,13 +119,16 @@ export default function PredictionItem(props: Readonly<PredictionProps>) {
         <p>{getFormattedDate(date)}</p>
         <p>{stage}</p>
         {showSaveButton ? <Button onClick={handleSave} label="Guardar" /> : null}
+        <p className={`prediction-result prediction-result-${resultStatus}`}>
+          {matchResult}
+        </p>
       </div>
       <input
         className={`prediction-input ${
-          disableInputs ? "prediction-input--disabled" : ""
+          isMatchFinished ? "prediction-input--disabled" : ""
         }`}
         maxLength={2}
-        disabled={disableInputs}
+        disabled={isMatchFinished}
         value={predictionValues?.awayGoals}
         onChange={(e) => handleChange("away", e.target.value)}
       />

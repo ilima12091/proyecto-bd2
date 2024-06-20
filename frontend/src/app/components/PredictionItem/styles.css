@@ -6,6 +6,7 @@
   justify-content: space-between;
   min-height: 100px;
   padding: 1rem;
+  gap: 4rem;
 }
 
 .prediction-flag {
@@ -37,11 +38,32 @@
 
 .prediction-info {
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   gap: 0.5rem;
+}
+
+.prediction-result {
+  padding: 0.25rem 1rem;
+  border-radius: 5rem;
+  background-color: var(--background-color);
+  font-weight: bold;
+}
+
+.prediction-result-success {
+  background-color: var(--success-color);
+}
+
+.prediction-result-failed {
+  background-color: var(--error-color);
+  color: var(--white);
+}
+
+.prediction-result-partial-success {
+  background-color: var(--warning-color);
 }
 
 @media (max-width: 1024px) {
