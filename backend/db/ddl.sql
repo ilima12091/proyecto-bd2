@@ -49,7 +49,7 @@ CREATE TABLE Carrera (
     area INT REFERENCES Area(id)
 );
 
--- Relación pertenece entre Alumno y Carrera
+-- Relación "pertenece" entre Alumno y Carrera
 CREATE TABLE Alumno_Carrera (
     alumnoId INT REFERENCES Alumno(id),
     carreraId INT REFERENCES Carrera(id),
@@ -66,7 +66,8 @@ CREATE TABLE Equipo (
 CREATE TABLE Pais (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
-    confederacion VARCHAR(50) NOT NULL
+    confederacion VARCHAR(50) NOT NULL,
+    iso VARCHAR(3) NOT NULL
 );
 
 -- Tabla Sede
@@ -77,7 +78,7 @@ CREATE TABLE Sede (
     paisId INT REFERENCES Pais(id)
 );
 
--- Relación pertenece entre Sede y País
+-- Relación "pertenece" entre Sede y País
 ALTER TABLE Sede ADD CONSTRAINT fk_pais FOREIGN KEY (paisId) REFERENCES Pais(id);
 
 -- Tabla Estadio
@@ -106,10 +107,11 @@ CREATE TABLE Predice (
     idPartido INT REFERENCES Partido(id),
     golesLocal INT,
     golesVisitante INT,
-    puntosObtenidos INT DEFAULT NULL
+    puntosObtenidos INT DEFAULT NULL,
+    CONSTRAINT unique_alumno_partido UNIQUE (idAlumno, idPartido)
 );
 
--- Relación Es Campeón y Es Subcampeón
+-- Relaciones "Es Campeón" y "Es Subcampeón"
 CREATE TABLE EsCampeon (
     id SERIAL PRIMARY KEY,
     idEquipo INT REFERENCES Equipo(id),
@@ -130,3 +132,83 @@ CREATE TABLE Torneo (
     nombre VARCHAR(50) NOT NULL,
     equipoId INT unique references Equipo(id)
 );
+
+INSERT INTO Usuario (fechaCreacion, nombre, apellido, contraseña, email) VALUES
+('2024-01-01', 'Carlos', 'Gomez', 'password123', 'carlos.gomez@example.com'),
+('2024-01-02', 'Laura', 'Martinez', 'password456', 'laura.martinez@example.com'),
+('2024-01-03', 'Pedro', 'Lopez', 'password789', 'pedro.lopez@example.com');
+
+INSERT INTO Administrador (usuarioId) VALUES
+(1);
+
+INSERT INTO Alumno (usuarioId) VALUES
+(2),
+(3);
+
+INSERT INTO Area (area) VALUES
+('Ingeniería'),
+('Ciencias Sociales'),
+('Ciencias Naturales');
+
+INSERT INTO Carrera (nombre, codigo, area) VALUES
+('Ingeniería de Software', 'IS001', 1),
+('Psicología', 'PS001', 2),
+('Biología', 'BIO001', 3);
+
+INSERT INTO Alumno_Carrera (alumnoId, carreraId) VALUES
+(1, 1),
+(2, 2);
+
+INSERT INTO Equipo (nombre) VALUES
+('Uruguay'),
+('Argentina'),
+('Brasil'),
+('Colombia');
+
+INSERT INTO Pais (nombre, confederacion, iso) VALUES
+('Uruguay', 'CONMEBOL', 'CO'),
+('Argentina', 'CONMEBOL', 'UY'),
+('Brasil', 'CONMEBOL', 'AR'),
+('Colombia', 'CONMEBOL', 'BR'); 
+
+INSERT INTO Sede (ciudad, estado, paisId) VALUES
+('Montevideo', 'Montevideo', 1),
+('Buenos Aires', 'Capital Federal', 2),
+('São Paulo', 'São Paulo', 3),
+('Medellín', 'Medellín', 4);
+
+INSERT INTO Estadio (nombre, idsede) VALUES
+('Estadio centenario', 1),
+('Estadio Monumental', 2),
+('Estadio Morumbi', 3),
+('Estadio Atanasio Girardot', 4);
+
+INSERT INTO Partido (fecha, etapa, idestadio , idequipolocal, idequipovisitante) VALUES
+('2024-06-20', 'Grupo A', 2, 2, 1),
+('2024-06-20', 'Grupo B', 4, 4, 3),
+('2024-06-21', 'Grupo C', 2, 3, 1),
+('2024-06-21', 'Grupo D', 4, 4, 2);
+
+INSERT INTO Partido (fecha, etapa, idestadio , idequipolocal, idequipovisitante, goleslocal, golesvisitante) VALUES
+('2024-06-10', 'Grupo A', 1, 1, 2, 2, 1),
+('2024-06-10', 'Grupo B', 3, 3, 4, 1, 1),
+('2024-06-11', 'Grupo C', 1, 1, 3, 3, 0),
+('2024-06-11', 'Grupo D', 3, 2, 4, 1, 2);
+
+INSERT INTO Predice (idalumno, idpartido, golesLocal, golesVisitante) VALUES
+(1, 1, 2, 1),
+(2, 1, 2, 2),
+(1, 2, 0, 2),
+(2, 2, 0, 0),
+(1, 3, 1, 2),
+(2, 3, 1, 1),
+(1, 4, 1, 0),
+(2, 4, 2, 3);
+
+INSERT INTO EsCampeon (idequipo, idalumno, puntosObtenidos) VALUES
+(1, 1, 10),
+(3, 2, 8);
+
+INSERT INTO EsSubcampeon (idequipo, idalumno, puntosObtenidos) VALUES
+(2, 1, 6),
+(4, 2, 7);
