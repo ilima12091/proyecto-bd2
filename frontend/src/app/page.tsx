@@ -4,15 +4,16 @@ import List from "@/components/List/List";
 import PredictionItem from "./components/PredictionItem/PredictionItem";
 import ErrorAlert from "@/components/ErrorAlert/ErrorAlert";
 import useGetPredictions from "@/hooks/useGetPredictions";
-import "./styles.css";
 import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
+
+import "./styles.css";
 
 export default function Home() {
   const { error, data, isLoading, isLoaded, getPredictions } = useGetPredictions(1);
 
   return (
     <ProtectedRoute>
-      <main className="predictions">
+      <main className="page-container">
         {isLoading && <p>Cargando partidos...</p>}
         {error && <ErrorAlert errorText="Error cargando partidos" />}
         {isLoaded && !error && (
