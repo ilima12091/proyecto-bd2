@@ -2,9 +2,8 @@ import React from "react";
 
 import "./styles.css";
 
-type ButtonProps = {
+type ButtonProps = React.HTMLAttributes<HTMLButtonElement> & {
   label: string;
-  onClick: () => void;
   variant?: "primary" | "secondary";
   disabled?: boolean;
 };
