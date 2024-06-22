@@ -9,4 +9,6 @@ export type Prediction = {
   awayGoals: number;
   stage: string;
   matchId: number;
+  homeFlag?: string;
+  awayFlag?: string;
 };

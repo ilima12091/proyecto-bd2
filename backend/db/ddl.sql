@@ -62,7 +62,8 @@ CREATE TABLE Alumno_Carrera (
 -- Tabla Equipo
 CREATE TABLE Equipo (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL
+    nombre VARCHAR(50) NOT NULL,
+    urlLogo VARCHAR(300) DEFAULT NULL
 );
 
 -- Tabla País
@@ -162,11 +163,11 @@ INSERT INTO Alumno_Carrera (alumnoId, carreraId) VALUES
 (1, 1),
 (2, 2);
 
-INSERT INTO Equipo (nombre) VALUES
-('Uruguay'),
-('Argentina'),
-('Brasil'),
-('Colombia');
+INSERT INTO Equipo (nombre, urlLogo) VALUES
+('Uruguay', 'https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Uruguay.svg'),
+('Argentina', 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Flag_of_Argentina.svg'),
+('Brasil', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Flag_of_Brazil.svg/640px-Flag_of_Brazil.svg.png'),
+('Colombia', 'https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Colombia.svg');
 
 INSERT INTO Pais (nombre, confederacion, iso) VALUES
 ('Uruguay', 'CONMEBOL', 'CO'),
@@ -187,10 +188,10 @@ INSERT INTO Estadio (nombre, idsede) VALUES
 ('Estadio Atanasio Girardot', 4);
 
 INSERT INTO Partido (fecha, etapa, idestadio , idequipolocal, idequipovisitante) VALUES
-('2024-06-20', 'Grupo A', 2, 2, 1),
-('2024-06-20', 'Grupo B', 4, 4, 3),
-('2024-06-21', 'Grupo C', 2, 3, 1),
-('2024-06-21', 'Grupo D', 4, 4, 2);
+('2024-06-26', 'Grupo A', 2, 2, 1),
+('2024-06-26', 'Grupo B', 4, 4, 3),
+('2024-06-28', 'Grupo C', 2, 3, 1),
+('2024-06-28', 'Grupo D', 4, 4, 2);
 
 INSERT INTO Partido (fecha, etapa, idestadio , idequipolocal, idequipovisitante, goleslocal, golesvisitante) VALUES
 ('2024-06-10', 'Grupo A', 1, 1, 2, 2, 1),

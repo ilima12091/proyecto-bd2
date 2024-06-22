@@ -26,10 +26,9 @@ export default function PredictionItem(props: Readonly<PredictionProps>) {
     stage,
     matchId,
     refetchData,
+    homeFlag = findFlagUrlByCountryName(home),
+    awayFlag = findFlagUrlByCountryName(away),
   } = props;
-
-  const homeFlag = findFlagUrlByCountryName(home);
-  const awayFlag = findFlagUrlByCountryName(away);
 
   const [predictionValues, setPredictionValues] = useState({
     homeGoals: homePrediction ?? "-",

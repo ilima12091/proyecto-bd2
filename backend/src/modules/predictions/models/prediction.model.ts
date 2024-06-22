@@ -11,7 +11,7 @@ export class PredictionModel {
       `
       SELECT pr.id as id, pr.goleslocal as "homePrediction", pr.golesvisitante as "awayPrediction",
       p.fecha as date, eloc.nombre as home, eVis.nombre as away, p.goleslocal as "homeGoals", p.golesvisitante as "awayGoals", p.etapa as stage,
-      p.id as "matchId"
+      p.id as "matchId", eloc.urllogo as "homeFlag", eVis.urllogo as "awayFlag"
       FROM partido p
       INNER JOIN equipo as eloc on p.idequipolocal = eloc.id 
       INNER JOIN equipo as evis on p.idequipovisitante = evis.id
