@@ -1,0 +1,25 @@
+.button {
+  border: none;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+}
+
+.button:hover {
+  opacity: 0.9;
+}
+
+.button-primary {
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: 1px solid var(--primary-color);
+}
+
+.button-secondary {
+  background-color: var(--white);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
