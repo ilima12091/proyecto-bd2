@@ -122,6 +122,11 @@ input[type="number"] {
   color: var(--black);
 }
 
+.link {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

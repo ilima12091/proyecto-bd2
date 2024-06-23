@@ -13,3 +13,23 @@ export const login = async (email: string, password: string) => {
 
   return response.json();
 };
+
+export const register = async (
+  name: string,
+  surname: string,
+  email: string,
+  password: string,
+  identificationId: string
+) => {
+  const response = await fetch(`${BASE_URL}/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name, surname, email, password, identificationId }),
+  });
+
+  if (!response.ok) throw new Error("Error registering");
+
+  return response.json();
+};

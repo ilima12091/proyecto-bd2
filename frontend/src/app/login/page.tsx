@@ -2,15 +2,15 @@
 
 import { useAuth } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
-import appLogo from "./../../../public/app-logo.png";
 import Image from "next/image";
+import toast from "react-hot-toast";
+import appLogo from "./../../../public/app-logo.png";
 import Input from "@/components/form/Input/Input";
 import Button from "@/components/Button/Button";
 import useRequest from "@/hooks/useRequest";
 import { login } from "@/services/authService";
 
 import "./styles.css";
-import toast from "react-hot-toast";
 
 export default function Login() {
   const { login: loginAction, user } = useAuth();
@@ -67,8 +67,16 @@ export default function Login() {
           name="password"
           required
         />
-        <Button label="Iniciar sesión" />
+        <Button label="Iniciar sesión" type="submit" />
+        <Button
+          label="Registrarse"
+          variant="secondary"
+          onClick={() => router.push("/register")}
+          type="button"
+        />
       </form>
+      <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
+
       <Button label="User login" onClick={handleLogin} />
       <Button label="Admin login" onClick={handleAdminLogin} variant="secondary" />
     </main>

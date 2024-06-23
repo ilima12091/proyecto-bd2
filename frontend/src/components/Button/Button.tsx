@@ -1,8 +1,8 @@
-import React from "react";
+import React, { ButtonHTMLAttributes } from "react";
 
 import "./styles.css";
 
-type ButtonProps = React.HTMLAttributes<HTMLButtonElement> & {
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   label: string;
   variant?: "primary" | "secondary";
   disabled?: boolean;
