@@ -10,14 +10,15 @@ type ProtectedRouteProps = {
 };
 
 export default function ProtectedRoute({ children }: Readonly<ProtectedRouteProps>) {
-  const { user } = useAuth();
+  const { user, isAdmin, isLoading } = useAuth();
   const pathName = usePathname();
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) router.push("/login");
-    if (user?.role !== "admin" && adminRoutes.includes(pathName)) router.push("/");
-  }, [user, router, pathName]);
+    if (isLoading) return;
+    if (!user) router.replace("/login");
+    if (!isAdmin && adminRoutes.includes(pathName)) router.push("/");
+  }, [user, router, pathName, isAdmin, isLoading]);
 
   if (!user) return <div>Loading...</div>;
 

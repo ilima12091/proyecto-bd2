@@ -5,6 +5,7 @@ import AppRoutes from "@/components/AppRoutes/AppRoutes";
 
 import "./globals.css";
 import ToastProvider from "@/components/ToastProvider/ToastProvider";
+import { ModalProvider } from "@/contexts/modalContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <ToastProvider>
-            <AppRoutes>{children}</AppRoutes>
+            <ModalProvider>
+              <AppRoutes>{children}</AppRoutes>
+            </ModalProvider>
           </ToastProvider>
         </AuthProvider>
       </body>

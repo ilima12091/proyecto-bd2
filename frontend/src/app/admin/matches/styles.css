@@ -1,0 +1,11 @@
+.matches {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.matches-title {
+  align-self: flex-start;
+  justify-self: flex-start;
+}

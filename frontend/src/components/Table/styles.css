@@ -1,0 +1,34 @@
+.table {
+  background-color: var(--white);
+  color: var(--black);
+  border-radius: 0.5rem;
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0px;
+}
+
+.table-header {
+  border: none;
+}
+
+.table-data {
+  padding: 0.5rem;
+}
+
+.table-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.table-action-button {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.table-no-data {
+  padding: 2rem 1rem;
+}
