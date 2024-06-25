@@ -14,7 +14,6 @@ export class CountryModel {
   }
 
   async getById(id: number): Promise<Country> {
-    console.log("me llego id", id, "en el modelo de country");
     const { rows } = await this.pgClient.query(
       'SELECT * FROM pais WHERE id = $1;',
       [id]
