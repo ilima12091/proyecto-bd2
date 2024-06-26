@@ -1,10 +1,9 @@
-import React from "react";
+import React, { ButtonHTMLAttributes } from "react";
 
 import "./styles.css";
 
-type ButtonProps = {
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   label: string;
-  onClick: () => void;
   variant?: "primary" | "secondary";
   disabled?: boolean;
 };
