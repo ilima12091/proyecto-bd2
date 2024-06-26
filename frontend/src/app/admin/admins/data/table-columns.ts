@@ -6,28 +6,24 @@ export const tableColumns = (
   onDelete: (row: any) => void
 ): TableColumn[] => [
   {
-    label: "Local",
-    key: "home",
+    label: "Cédula",
+    key: "identificationId",
   },
   {
-    label: "Visitante",
-    key: "away",
+    label: "Nombre",
+    key: "name",
   },
   {
-    label: "Fecha",
-    key: "date",
+    label: "Apellido",
+    key: "surname",
   },
   {
-    label: "Goles local",
-    key: "homeGoals",
+    label: "Correo",
+    key: "email",
   },
   {
-    label: "Goles visitante",
-    key: "awayGoals",
-  },
-  {
-    label: "Etapa",
-    key: "stage",
+    label: "Fecha de creación",
+    key: "creationDate",
   },
   {
     label: "Acciones",

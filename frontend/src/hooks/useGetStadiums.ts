@@ -2,22 +2,22 @@ import { useCallback, useEffect } from "react";
 import useGetData from "./useGetData";
 import { getMatches } from "@/services/matchesService";
 
-export default function useGetMatches() {
+export default function useGetStadiums() {
   const { isLoading, isLoaded, error, data, getData } = useGetData();
 
-  const getMatchesData = useCallback(async () => {
+  const getStadiumsData = useCallback(async () => {
     await getData(async () => await getMatches());
   }, [getData]);
 
   useEffect(() => {
-    if (!isLoaded && !isLoading) getMatchesData();
-  }, [isLoaded, isLoading, getMatchesData]);
+    if (!isLoaded && !isLoading) getStadiumsData();
+  }, [isLoaded, isLoading, getStadiumsData]);
 
   return {
     isLoading,
     isLoaded,
     error,
     data,
-    getMatchesData,
+    getStadiumsData,
   };
 }

@@ -1,18 +1,18 @@
 export const matchFormFields = (row: any) => [
-  { name: "home", label: "Home", type: "text", value: row.home },
-  { name: "away", label: "Away", type: "text", value: row.away },
-  { name: "date", label: "Date", type: "date", value: row.date },
+  { name: "home", label: "Local", type: "text", value: row.home },
+  { name: "away", label: "Visitante", type: "text", value: row.away },
+  { name: "date", label: "Fecha", type: "date", value: row.date },
   {
     name: "homeGoals",
-    label: "Home goals",
+    label: "Goles local",
     type: "number",
     value: row.homeGoals,
   },
   {
     name: "awayGoals",
-    label: "Away goals",
+    label: "Goles visitante",
     type: "number",
     value: row.awayGoals,
   },
-  { name: "stage", label: "Stage", type: "text", value: row.stage },
+  { name: "stage", label: "Etapa", type: "text", value: row.stage },
 ];

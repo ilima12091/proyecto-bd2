@@ -40,11 +40,18 @@ export default function FormGenerator(props: Readonly<FormGeneratorProps>) {
     <form onSubmit={handleSubmit} className="form-generator">
       {title && <h1>{title}</h1>}
       <div className="form-generator-fields">
-        {fields?.map(({ name, label, type, required }) => {
+        {fields?.map(({ name, label, type, required, value }) => {
           return (
             <div key={name} className="form-generator-field">
               <label htmlFor={name}>{label}</label>
-              <Input type={type} name={name} required={required} variant="outlined" />
+              <Input
+                type={type}
+                name={name}
+                required={required}
+                variant="outlined"
+                placeholder={label}
+                defaultValue={value ?? ""}
+              />
             </div>
           );
         })}

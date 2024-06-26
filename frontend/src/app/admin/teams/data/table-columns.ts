@@ -1,33 +1,12 @@
-import { TableColumn } from "@/types/TableColumn";
 import { FaPen, FaRegTrashCan } from "react-icons/fa6";
 
 export const tableColumns = (
   onEdit: (row: any) => void,
   onDelete: (row: any) => void
-): TableColumn[] => [
+) => [
   {
-    label: "Local",
-    key: "home",
-  },
-  {
-    label: "Visitante",
-    key: "away",
-  },
-  {
-    label: "Fecha",
-    key: "date",
-  },
-  {
-    label: "Goles local",
-    key: "homeGoals",
-  },
-  {
-    label: "Goles visitante",
-    key: "awayGoals",
-  },
-  {
-    label: "Etapa",
-    key: "stage",
+    label: "Nombre",
+    key: "name",
   },
   {
     label: "Acciones",

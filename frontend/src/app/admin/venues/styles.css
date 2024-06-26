@@ -1,4 +1,4 @@
-.matches {
+.venues {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -6,7 +6,7 @@
   color: var(--black);
 }
 
-.matches-title {
+.venues-title {
   align-self: flex-start;
   justify-self: flex-start;
 }

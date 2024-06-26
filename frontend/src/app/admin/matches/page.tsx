@@ -5,19 +5,26 @@ import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 import Table from "@/components/Table/Table";
 import useGetMatches from "@/hooks/useGetMatches";
 import { tableColumns } from "./data/table-columns";
-import { tableActions } from "./data/table-actions";
 import { useModal } from "@/contexts/modalContext";
 import FormGenerator from "@/components/FormGenerator/FormGenerator";
 import { matchFormFields } from "./data/match-form-fields";
+import { deleteMatch, updateMatch } from "@/services/matchesService";
+import toast from "react-hot-toast";
 
 import "./styles.css";
 
 export default function Matches() {
   const { openModal, closeModal } = useModal();
-  const { data } = useGetMatches();
+  const { data, getMatchesData } = useGetMatches();
 
-  const onSubmit = (values: any) => {
-    console.log(values);
+  const onSubmit = async (matchId: number, values: any) => {
+    try {
+      await updateMatch(matchId, values);
+      toast.success("Partido editado correctamente");
+      await getMatchesData();
+    } catch (error) {
+      toast.error("Error al editar el partido");
+    }
   };
 
   const handleEdit = (row: any) => {
@@ -25,22 +32,27 @@ export default function Matches() {
       <FormGenerator
         title="Editar partido"
         fields={matchFormFields(row)}
-        onSubmit={onSubmit}
+        onSubmit={(data: any) => onSubmit(row.id, data)}
         onCancel={closeModal}
       />
     );
   };
 
-  const handleDelete = (row: any) => {};
-
-  const tableRowActions = tableActions(handleEdit, handleDelete);
+  const handleDelete = async (row: any) => {
+    try {
+      await deleteMatch(row?.id);
+      toast.success("Partido eliminado correctamente");
+    } catch (error) {
+      toast.error("Error al eliminar el partido");
+    }
+  };
 
   return (
     <ProtectedRoute>
       <main className="matches">
-        <h1 className="matches-title">Matches</h1>
+        <h1 className="matches-title">Partidos</h1>
         <Table
-          columns={tableColumns}
+          columns={tableColumns(handleEdit, handleDelete)}
           data={
             data ?? [
               {
@@ -54,7 +66,6 @@ export default function Matches() {
               },
             ]
           }
-          actions={tableRowActions}
         />
       </main>
     </ProtectedRoute>

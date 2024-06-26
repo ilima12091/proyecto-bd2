@@ -16,4 +16,5 @@
   flex-direction: column;
   color: var(--black);
   color-scheme: light;
+  gap: 0.5rem;
 }
