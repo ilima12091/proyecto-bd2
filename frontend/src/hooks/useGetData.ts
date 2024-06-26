@@ -1,6 +1,6 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-export default function useGetData() {
+export default function useGetData(getDataFunction: () => Promise<any>) {
   const [reqData, setReqData] = useState<{
     data: any;
     error: boolean;
@@ -43,8 +43,13 @@ export default function useGetData() {
     [setReqData]
   );
 
+  useEffect(() => {
+    if (!reqData?.isLoaded && !reqData?.isLoading) getData(getDataFunction);
+  });
+
   return {
     ...reqData,
     getData,
+    refetchData: () => getData(getDataFunction),
   };
 }

@@ -26,7 +26,7 @@ export default function Table({ columns, data }: Readonly<TableProps>) {
                 {label}
               </th>
             ))}
-            {actions && <th className="table-header">Actions</th>}
+            {actions && <th className="table-header">Acciones</th>}
           </tr>
         </thead>
       )}

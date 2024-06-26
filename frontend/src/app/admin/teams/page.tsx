@@ -1,67 +1,36 @@
 "use client";
 
 import React from "react";
-import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
-import Table from "@/components/Table/Table";
 import { tableColumns } from "./data/table-columns";
-import useGetTeams from "@/hooks/useGetTeams";
-import { deleteTeam, updateTeam } from "@/services/teamsService";
-import toast from "react-hot-toast";
-import { useModal } from "@/contexts/modalContext";
-import FormGenerator from "@/components/FormGenerator/FormGenerator";
+import { deleteTeam, getTeams, updateTeam } from "@/services/teamsService";
 import { teamFormFields } from "./data/team-form-fields";
-
-import "./styles.css";
+import CommonAdminScreen from "@/components/CommonAdminScreen/CommonAdminScreen";
+import useGetData from "@/hooks/useGetData";
 
 export default function Teams() {
-  const { openModal, closeModal } = useModal();
-  const { data, getTeamsData } = useGetTeams();
-
-  const onSubmit = async (teamId: number, values: any) => {
-    try {
-      await updateTeam(teamId, values);
-      toast.success("Equipo editado correctamente");
-      await getTeamsData();
-    } catch (error) {
-      toast.error("Error al editar el equipo");
-    }
-  };
-
-  const handleEdit = async (row: any) => {
-    openModal(
-      <FormGenerator
-        title="Editar equipo"
-        fields={teamFormFields(row)}
-        onSubmit={(data: any) => onSubmit(row.teamId, data)}
-        onCancel={closeModal}
-      />
-    );
-  };
-
-  const handleDelete = async (row: any) => {
-    try {
-      await deleteTeam(row?.id);
-      toast.success("Equipo eliminado correctamente");
-    } catch (error) {
-      toast.error("Error al eliminar el equipo");
-    }
-  };
+  const { data, refetchData, isLoading, error } = useGetData(
+    async () => await getTeams()
+  );
 
   return (
-    <ProtectedRoute>
-      <main className="teams">
-        <h1 className="teams-title">Equipos</h1>
-        <Table
-          columns={tableColumns(handleEdit, handleDelete)}
-          data={
-            data ?? [
-              {
-                name: "Uruguay",
-              },
-            ]
-          }
-        />
-      </main>
-    </ProtectedRoute>
+    <CommonAdminScreen
+      title="Equipos"
+      data={
+        data ?? [
+          {
+            name: "Uruguay",
+            urlLogo:
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Uruguay_football_association_logo.svg/1200px-Uruguay_football_association_logo.svg.png",
+          },
+        ]
+      }
+      handleUpdate={updateTeam}
+      handleDelete={deleteTeam}
+      formFields={teamFormFields}
+      tableColumns={tableColumns}
+      refetchData={refetchData}
+      isLoading={isLoading}
+      error={error}
+    />
   );
 }

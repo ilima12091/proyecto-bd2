@@ -17,6 +17,7 @@ type FormGeneratorProps = {
   submitText?: string;
   cancelText?: string;
   title?: string;
+  disabled?: boolean;
 };
 
 export default function FormGenerator(props: Readonly<FormGeneratorProps>) {
@@ -25,6 +26,7 @@ export default function FormGenerator(props: Readonly<FormGeneratorProps>) {
     fields,
     title,
     onCancel,
+    disabled,
     submitText = "Guardar",
     cancelText = "Cancelar",
   } = props;
@@ -51,12 +53,13 @@ export default function FormGenerator(props: Readonly<FormGeneratorProps>) {
                 variant="outlined"
                 placeholder={label}
                 defaultValue={value ?? ""}
+                disabled={disabled}
               />
             </div>
           );
         })}
       </div>
-      <Button label={submitText} />
+      <Button label={submitText} disabled={disabled} />
       <Button label={cancelText} variant="secondary" type="button" onClick={onCancel} />
     </form>
   );
