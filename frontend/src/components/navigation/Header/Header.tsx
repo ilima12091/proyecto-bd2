@@ -8,8 +8,11 @@ import { headerOptions } from "@/constants/headerOptions";
 import appLogo from "./../../../../public/app-logo.png";
 
 import "./styles.css";
+import Button from "@/components/Button/Button";
+import { useAuth } from "@/contexts/authContext";
 
 export default function Header() {
+  const { logout } = useAuth();
   const pathname = usePathname();
 
   const isActive = useCallback(
@@ -18,6 +21,10 @@ export default function Header() {
     },
     [pathname]
   );
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <header className="header">
@@ -31,6 +38,9 @@ export default function Header() {
             <Link href={href}>{name}</Link>
           </li>
         ))}
+        <li>
+          <Button label="Cerrar sesión" onClick={handleLogout} />
+        </li>
       </ul>
     </header>
   );

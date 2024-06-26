@@ -13,7 +13,8 @@ async function bootstrap() {
       logger: true,
     }),
   );
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(3000);
+  await app.listen(3002);
 }
 bootstrap();
