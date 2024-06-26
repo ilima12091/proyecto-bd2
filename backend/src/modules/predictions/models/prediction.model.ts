@@ -70,4 +70,25 @@ export class PredictionModel {
       [homeGoals, awayGoals, predictionId],
     );
   }
+
+  async createChampionAndRunnerUpPrediction(
+    userId: number,
+    championId: number,
+    runnerUpId: number
+  ): Promise<void> {
+    await this.pgClient.query(
+      `
+      INSERT INTO escampeon (idequipo, idalumno, puntosobtenidos)
+      VALUES ($1, $2, 0);
+      `,
+      [championId, userId]
+    )
+    await this.pgClient.query(
+      `
+      INSERT INTO essubcampeon (idequipo, idalumno, puntosobtenidos)
+      VALUES ($1, $2, 0);
+      `,
+      [runnerUpId, userId]
+    )
+  }
 }

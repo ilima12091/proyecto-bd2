@@ -21,4 +21,16 @@ export class PredictionsController {
       createPredictionDto,
     );
   }
+
+  @Post(':championId/:runnerUpId')
+  async createChampionAndRunnerUpPrediction(
+    @Param('id') userId: number,
+    @Param('championId') championId: number,
+    @Param('runnerUpId') runnerUpId: number) {
+    return await this.predictionsService.createChampionAndRunnerUpPrediction(
+      userId,
+      championId,
+      runnerUpId
+    );
+  }
 }
