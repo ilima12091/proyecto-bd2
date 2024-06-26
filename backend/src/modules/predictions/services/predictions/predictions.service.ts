@@ -36,4 +36,16 @@ export class PredictionsService {
       matchId,
     );
   }
+
+  async createChampionAndRunnerUpPrediction(
+    userId: number,
+    championId: number,
+    runnerUpId: number
+  ) {
+    return await this.predictionModel.createChampionAndRunnerUpPrediction(
+      userId,
+      championId,
+      runnerUpId
+    );
+  }
 }
