@@ -49,7 +49,7 @@ export class MatchModel {
     localGoals: number,
     awayGoals: number
   ): Promise<void> {
-    const resultInsertResult = await this.pgClient.query(
+    await this.pgClient.query(
       `
         UPDATE partido
         SET goleslocal = $1, golesvisitante = $2
@@ -57,11 +57,6 @@ export class MatchModel {
       `,
       [localGoals, awayGoals, matchId],
     );
-    const userData = resultInsertResult.rows[0];
-
-    if (userData) {
-        // Lógica para sumar puntos
-    }
   }
 
   async update(

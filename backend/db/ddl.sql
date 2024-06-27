@@ -111,7 +111,7 @@ CREATE TABLE Predice (
     idPartido INT REFERENCES Partido(id),
     golesLocal INT,
     golesVisitante INT,
-    puntosObtenidos INT DEFAULT NULL,
+    puntosObtenidos INT DEFAULT 0,
     CONSTRAINT unique_alumno_partido UNIQUE (idAlumno, idPartido)
 );
 
@@ -120,14 +120,14 @@ CREATE TABLE EsCampeon (
     id SERIAL PRIMARY KEY,
     idEquipo INT REFERENCES Equipo(id),
     idAlumno INT REFERENCES Alumno(id),
-    puntosObtenidos INT DEFAULT NULL
+    puntosObtenidos INT DEFAULT 0
 );
 
 CREATE TABLE EsSubcampeon (
     id SERIAL PRIMARY KEY,
     idEquipo INT REFERENCES Equipo(id),
     idAlumno INT REFERENCES Alumno(id),
-    puntosObtenidos INT DEFAULT NULL
+    puntosObtenidos INT DEFAULT 0
 );
 
 -- Tabla Torneo
