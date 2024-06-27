@@ -20,6 +20,7 @@ export async function createPrediction(
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+    },
     body: JSON.stringify({ homeGoals: +homeGoals, awayGoals: +awayGoals, matchId }),
   });
 
