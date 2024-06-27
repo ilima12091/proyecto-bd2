@@ -14,7 +14,7 @@ import { MatchesModule } from './modules/matches/matches.module';
     DatabaseModule,
     StudentsModule,
     PredictionsModule,
-    MatchesModule
+    MatchesModule,
   ],
   controllers: [],
   providers: [],

@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PredictionModel } from '../../models/prediction.model';
+<<<<<<< HEAD
 import { CreatePredictionDto } from '../../dtos/create-prediction.dto';
+=======
+>>>>>>> 2ce0e06 (Se agrega parte de la pantalla de predicciones y el módulo de predicciones sin terminar en el backend)
 
 @Injectable()
 export class PredictionsService {
@@ -9,6 +12,7 @@ export class PredictionsService {
   async getPredictionsByUserId(userId: number) {
     return await this.predictionModel.getPredictionsByUserId(userId);
   }
+<<<<<<< HEAD
 
   async createOrUpdatePrediction(
     userId: number,
@@ -56,4 +60,6 @@ export class PredictionsService {
   ) {
 
   }
+=======
+>>>>>>> 2ce0e06 (Se agrega parte de la pantalla de predicciones y el módulo de predicciones sin terminar en el backend)
 }

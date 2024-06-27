@@ -5,8 +5,10 @@ import { MatchModel } from 'src/modules/admin/models/match.model';
 
 @Injectable()
 export class PredictionModel {
-  constructor(@Inject('PG_CONNECTION') private readonly pgClient: PoolClient,
-              private readonly matchModel: MatchModel) {}
+  constructor(
+    @Inject('PG_CONNECTION') private readonly pgClient: PoolClient,
+    private readonly matchModel: MatchModel,
+  ) {}
 
   async getPredictionsByUserId(userId: number): Promise<Prediction[]> {
     const { rows } = await this.pgClient.query(
@@ -76,29 +78,29 @@ export class PredictionModel {
   async createChampionAndRunnerUpPrediction(
     userId: number,
     championId: number,
-    runnerUpId: number
+    runnerUpId: number,
   ): Promise<void> {
     await this.pgClient.query(
       `
       INSERT INTO escampeon (idequipo, idalumno, puntosobtenidos)
       VALUES ($1, $2, 0);
       `,
-      [championId, userId]
-    )
+      [championId, userId],
+    );
     await this.pgClient.query(
       `
       INSERT INTO essubcampeon (idequipo, idalumno, puntosobtenidos)
       VALUES ($1, $2, 0);
       `,
-      [runnerUpId, userId]
-    )
+      [runnerUpId, userId],
+    );
   }
 
   async insertMatchPrediction(
     matchId: number,
     userId: number,
     userLocalGoals: number,
-    userAwayGoals: number
+    userAwayGoals: number,
   ) {
     await this.pgClient.query(
       `
@@ -106,19 +108,23 @@ export class PredictionModel {
         (idalumno, idpartido, goleslocal, golesvisitante)
         VALUES($1, $2, $3, $4);
       `,
-      [userId, matchId, userLocalGoals, userAwayGoals]
-    )
+      [userId, matchId, userLocalGoals, userAwayGoals],
+    );
   }
 
   async updatePredictionPoints(
     matchId: number,
     userId: number,
     userLocalGoals: number,
-    userAwayGoals: number
+    userAwayGoals: number,
   ) {
-    var match = await this.matchModel.getById(matchId);
-    var points = this.getPredictionPoints(match.goleslocal, match.golesvisitante,
-      userLocalGoals, userAwayGoals);
+    const match = await this.matchModel.getById(matchId);
+    const points = this.getPredictionPoints(
+      match.goleslocal,
+      match.golesvisitante,
+      userLocalGoals,
+      userAwayGoals,
+    );
     await this.pgClient.query(
       `
         UPDATE predice
@@ -126,26 +132,28 @@ export class PredictionModel {
         AND idalumno=$2 
         AND idpartido=$3;
       `,
-      [points, userId, matchId]
-    )
+      [points, userId, matchId],
+    );
   }
 
   async getPredictionPoints(
     matchLGoals: number,
     matchAGoals: number,
     predictedLGoals: number,
-    predictedAGoals: number
-  ) : Promise<number> {
+    predictedAGoals: number,
+  ): Promise<number> {
     if (matchLGoals === predictedLGoals && matchAGoals === predictedAGoals) {
       return 4;
     }
-    
-    if ((matchLGoals >= matchAGoals && predictedLGoals >= predictedAGoals) ||
-        (matchLGoals <= matchAGoals && predictedLGoals <= predictedAGoals) ||
-        (matchLGoals === matchAGoals && predictedLGoals === predictedAGoals)) {
+
+    if (
+      (matchLGoals >= matchAGoals && predictedLGoals >= predictedAGoals) ||
+      (matchLGoals <= matchAGoals && predictedLGoals <= predictedAGoals) ||
+      (matchLGoals === matchAGoals && predictedLGoals === predictedAGoals)
+    ) {
       return 2;
     }
-  
+
     return 0;
   }
 }

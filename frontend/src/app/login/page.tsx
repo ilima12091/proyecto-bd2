@@ -13,7 +13,7 @@ import { login } from "@/services/authService";
 import "./styles.css";
 
 export default function Login() {
-  const { login: loginAction, user } = useAuth();
+  const { login: loginAction, user, isAdmin } = useAuth();
   const router = useRouter();
 
   const { executeRequest } = useRequest(
@@ -27,7 +27,6 @@ export default function Login() {
         event?.target?.email?.value,
         event?.target?.password?.value
       );
-      console.log(result);
     } catch (error) {
       toast.error("Ocurrió un error al iniciar sesión, por favor intenta nuevamente");
       console.error(error);
@@ -35,7 +34,6 @@ export default function Login() {
     loginAction({
       userId: 1,
     });
-    router.push("/");
   };
 
   const handleAdminLogin = () => {
@@ -43,10 +41,11 @@ export default function Login() {
       userId: 2,
       role: "admin",
     });
-    router.push("/");
   };
 
-  if (user) router.push("/");
+  if (user && isAdmin) return router.push("/top-players");
+
+  if (user) return router.push("/");
 
   return (
     <main className="page-container">

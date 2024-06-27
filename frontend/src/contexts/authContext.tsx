@@ -10,20 +10,29 @@ import React, {
 } from "react";
 import Cookies from "js-cookie";
 
+type User = {
+  userId: number;
+  role?: string;
+};
+
 type AuthContextProps = {
-  user: any;
+  user: User | null;
   login: (userData: any) => void;
   logout: () => void;
+  isAdmin: boolean;
+  isLoading: boolean;
 };
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const userCookie = Cookies.get("user");
     if (userCookie) setUser(JSON.parse(userCookie));
+    setIsLoading(false);
   }, []);
 
   const login = useCallback((userData: any) => {
@@ -37,8 +46,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const contextValue = useMemo(() => {
-    return { user, login, logout };
-  }, [user, login, logout]);
+    return { user, login, logout, isAdmin: user?.role === "admin", isLoading };
+  }, [user, login, logout, isLoading]);
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };
