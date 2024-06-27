@@ -1,9 +1,8 @@
+import { BASE_URL } from "@/constants/globalConstants";
 import { Prediction } from "@/types/Prediction";
 
-const baseUrl = process.env.BACKEND_BASE_URL ?? process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
-
 export async function getPredictionsByUserId(userId: number): Promise<Prediction[]> {
-  const response = await fetch(`${baseUrl}/users/${userId}/predictions`, {
+  const response = await fetch(`${BASE_URL}/users/${userId}/predictions`, {
     cache: "no-store",
   });
   if (!response.ok) throw new Error("Error getting predictions");
@@ -16,8 +15,8 @@ export async function createPrediction(
   homeGoals: number,
   awayGoals: number,
   matchId: number
-): Promise<void> {
-  const response = await fetch(`${baseUrl}/users/${userId}/predictions`, {
+): Promise<boolean> {
+  const response = await fetch(`${BASE_URL}/users/${userId}/predictions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -26,4 +25,6 @@ export async function createPrediction(
   });
 
   if (!response.ok) throw new Error("Error creating prediction");
+
+  return true;
 }

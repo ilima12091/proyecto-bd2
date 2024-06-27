@@ -1,0 +1,21 @@
+.form-input {
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.form-input-primary {
+  background-color: var(--white);
+  color: var(--black);
+}
+
+.form-input-outlined {
+  background-color: var(--white);
+  color: var(--black);
+  border: 1px solid var(--primary-color);
+}
+
+.form-input:focus {
+  outline: none;
+  border: 1px solid var(--primary-color);
+}

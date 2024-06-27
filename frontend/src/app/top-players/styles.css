@@ -1,0 +1,9 @@
+.players-list {
+  justify-content: center;
+  width: 100%;
+  gap: 8px;
+}
+
+.top-players-title {
+  align-self: start;
+}

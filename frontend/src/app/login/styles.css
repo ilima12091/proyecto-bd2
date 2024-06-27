@@ -1,0 +1,27 @@
+.app-logo {
+  height: 100px;
+  width: 400px;
+  object-fit: contain;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: var(--white);
+  gap: 1rem;
+  min-width: 400px;
+}
+
+@media (max-width: 1024px) {
+  .app-logo {
+    width: 100%;
+  }
+
+  .login-form {
+    width: 100%;
+    padding: 1rem;
+    min-width: auto;
+  }
+}

@@ -18,9 +18,13 @@ export default function List({
 }: Readonly<ListProps>) {
   return (
     <ul className={`list ${className ?? ""}`} {...restOfProps}>
-      {data?.map((item: any) => (
+      {data?.map((item: any, index: number) => (
         <li key={JSON.stringify(item)}>
-          {ItemComponent ? <ItemComponent {...item} {...itemProps} /> : item}
+          {ItemComponent ? (
+            <ItemComponent index={index} {...item} {...itemProps} />
+          ) : (
+            item
+          )}
         </li>
       ))}
     </ul>
