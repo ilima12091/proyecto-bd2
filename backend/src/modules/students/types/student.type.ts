@@ -1,6 +1,9 @@
 export type Student = {
-  id: number;
-  usuarioId: number;
+  id: number,
+  fechacreacion: Date;
+  nombre: string;
+  apellido: string;
+  email: string;
 };
 
 export type StudentLeaderboard = {
