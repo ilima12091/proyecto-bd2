@@ -1,13 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { PredictionModel } from '../../models/prediction.model';
 import { CreatePredictionDto } from '../../dtos/create-prediction.dto';
+import { MatchModel } from 'src/modules/admin/models/match.model';
 
 @Injectable()
 export class PredictionsService {
-  constructor(private predictionModel: PredictionModel) {}
+  constructor(private predictionModel: PredictionModel,
+    private matchModel: MatchModel
+  ) {}
 
   async getPredictionsByUserId(userId: number) {
     return await this.predictionModel.getPredictionsByUserId(userId);
+  }
+
+  async calculatePoints(matchId: number) {
+    const predictions = await this.predictionModel.getPredictionIdByMatchId(matchId);
+    console.log("predict", predictions);
+    for (const prediction of predictions) {
+      await this.predictionModel.updatePredictionPoints(
+        matchId,
+        prediction.idalumno,
+        prediction.goleslocal,
+        prediction.golesvisitante
+      )
+    }
   }
 
   async createOrUpdatePrediction(
@@ -16,7 +32,7 @@ export class PredictionsService {
   ) {
     const { homeGoals, awayGoals, matchId } = createPredictionDto;
 
-    const predictionId = await this.predictionModel.getPredictionIdByMatchId(
+    const predictionId = await this.predictionModel.getPredictionIdByMatchAndUserId(
       userId,
       matchId,
     );
@@ -49,11 +65,31 @@ export class PredictionsService {
     );
   }
 
-  async loadPredictionPoints(
+  async insertMatchPrediction(
+    matchId: number,
     userId: number,
     userLocalGoals: number,
     userAwayGoals: number
   ) {
+    return await this.predictionModel.insertMatchPrediction(
+      matchId,
+      userId,
+      userLocalGoals,
+      userAwayGoals
+    )    
+  }
 
+  async updatePredictionPoints(
+    matchId: number,
+    userId: number,
+    userLocalGoals: number,
+    userAwayGoals: number
+  ) {
+    return await this.predictionModel.updatePredictionPoints(
+      matchId,
+      userId,
+      userLocalGoals,
+      userAwayGoals
+    )    
   }
 }

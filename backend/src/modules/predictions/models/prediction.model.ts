@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { PoolClient } from 'pg';
 import { Prediction } from '../types/Prediction';
 import { MatchModel } from 'src/modules/admin/models/match.model';
+import { Predice } from '../types/predice.type';
 
 @Injectable()
 export class PredictionModel {
@@ -42,7 +43,7 @@ export class PredictionModel {
     );
   }
 
-  async getPredictionIdByMatchId(
+  async getPredictionIdByMatchAndUserId(
     userId: number,
     matchId: number,
   ): Promise<number> {
@@ -56,6 +57,22 @@ export class PredictionModel {
     );
 
     return rows?.[0]?.id;
+  }
+
+  async getPredictionIdByMatchId(
+    matchId: number,
+  ): Promise<Predice[]> {
+    const { rows } = await this.pgClient.query(
+      `
+        SELECT * 
+        FROM predice p 
+        WHERE p.idpartido = $1 
+        AND p.puntosobtenidos = 0;
+      `,
+      [matchId],
+    );
+
+    return rows;
   }
 
   async updatePrediction(
@@ -80,15 +97,15 @@ export class PredictionModel {
   ): Promise<void> {
     await this.pgClient.query(
       `
-      INSERT INTO escampeon (idequipo, idalumno, puntosobtenidos)
-      VALUES ($1, $2, 0);
+      INSERT INTO escampeon (idequipo, idalumno)
+      VALUES ($1, $2);
       `,
       [championId, userId]
     )
     await this.pgClient.query(
       `
-      INSERT INTO essubcampeon (idequipo, idalumno, puntosobtenidos)
-      VALUES ($1, $2, 0);
+      INSERT INTO essubcampeon (idequipo, idalumno)
+      VALUES ($1, $2);
       `,
       [runnerUpId, userId]
     )
@@ -117,13 +134,13 @@ export class PredictionModel {
     userAwayGoals: number
   ) {
     var match = await this.matchModel.getById(matchId);
-    var points = this.getPredictionPoints(match.goleslocal, match.golesvisitante,
+    var points = await this.getPredictionPoints(match.goleslocal, match.golesvisitante,
       userLocalGoals, userAwayGoals);
     await this.pgClient.query(
       `
         UPDATE predice
-        SET puntosobtenidos=$1
-        AND idalumno=$2 
+        SET puntosobtenidos=$1 
+        WHERE idalumno=$2 
         AND idpartido=$3;
       `,
       [points, userId, matchId]
@@ -136,13 +153,16 @@ export class PredictionModel {
     predictedLGoals: number,
     predictedAGoals: number
   ) : Promise<number> {
+    if (matchLGoals || matchAGoals)
+      return 0;
+
     if (matchLGoals === predictedLGoals && matchAGoals === predictedAGoals) {
       return 4;
     }
     
-    if ((matchLGoals >= matchAGoals && predictedLGoals >= predictedAGoals) ||
-        (matchLGoals <= matchAGoals && predictedLGoals <= predictedAGoals) ||
-        (matchLGoals === matchAGoals && predictedLGoals === predictedAGoals)) {
+    if (((matchLGoals >= matchAGoals && predictedLGoals >= predictedAGoals) ||
+        (matchLGoals <= matchAGoals && predictedLGoals <= predictedAGoals)) &&
+        (matchLGoals !== matchAGoals && predictedLGoals !== predictedAGoals)) {
       return 2;
     }
   
