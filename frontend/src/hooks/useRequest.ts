@@ -15,7 +15,6 @@ export default function useRequest(requestFunction: (...params: any[]) => Promis
       setRequestData({ data: response, error: false, isLoading: false });
       return response;
     } catch (error) {
-      console.log(error);
       setRequestData({ data: null, error: true, isLoading: false });
       throw error;
     }

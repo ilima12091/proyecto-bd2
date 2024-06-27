@@ -16,12 +16,13 @@ type CommonAdminScreenProps = {
   handleUpdate: (id: number, values: any) => Promise<void>;
   handleDelete: (id: number) => Promise<void>;
   handleCreate: (values: any) => Promise<void>;
-  formFields: (row: any) => any;
+  formFields: (row: any, formFieldsProps: any) => any;
   tableColumns: (onEdit: (row: any) => void, onDelete: (row: any) => void) => any;
   data: any[];
   refetchData: () => void;
   isLoading: boolean;
   error?: boolean;
+  formFieldsProps?: any;
 };
 
 export default function CommonAdminScreen({
@@ -35,6 +36,7 @@ export default function CommonAdminScreen({
   isLoading,
   error,
   handleCreate,
+  formFieldsProps,
 }: Readonly<CommonAdminScreenProps>) {
   // TODO: Eliminar cuando se conecte al backend correctamente
   error = false;
@@ -64,7 +66,7 @@ export default function CommonAdminScreen({
     openModal(
       <FormGenerator
         title="Crear"
-        fields={formFields({})}
+        fields={formFields({}, formFieldsProps)}
         onSubmit={(data: any) => create(data)}
         onCancel={closeModal}
         disabled={isLoading}
@@ -76,7 +78,7 @@ export default function CommonAdminScreen({
     openModal(
       <FormGenerator
         title="Editar"
-        fields={formFields(row)}
+        fields={formFields(row, formFieldsProps)}
         onSubmit={(data: any) => handleEdit(row.id, data)}
         onCancel={closeModal}
         disabled={isLoading}
@@ -97,7 +99,7 @@ export default function CommonAdminScreen({
     <ProtectedRoute>
       <main className="admin-screen">
         <h1 className="admin-screen-title">{title}</h1>
-        <Button label="Crear" onClick={onCreate} />
+        <Button className="admin-screen-create-button" label="Crear" onClick={onCreate} />
         {isLoading && <Spinner />}
         {error && (
           <ErrorAlert errorText="Error al cargar los datos" retry={refetchData} />

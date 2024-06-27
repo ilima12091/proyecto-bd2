@@ -19,14 +19,24 @@ export const register = async (
   surname: string,
   email: string,
   password: string,
-  identificationId: string
+  identificationId: string,
+  champion: string,
+  runnerUp: string
 ) => {
   const response = await fetch(`${BASE_URL}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, surname, email, password, identificationId }),
+    body: JSON.stringify({
+      name,
+      surname,
+      email,
+      password,
+      identificationId,
+      champion,
+      runnerUp,
+    }),
   });
 
   if (!response.ok) throw new Error("Error registering");

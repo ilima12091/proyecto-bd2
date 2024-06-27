@@ -3,6 +3,7 @@ import Input from "../form/Input/Input";
 import Button from "../Button/Button";
 
 import "./styles.css";
+import Select from "../form/Select/Select";
 
 type FormGeneratorProps = {
   fields: {
@@ -11,9 +12,10 @@ type FormGeneratorProps = {
     name: string;
     required?: boolean;
     value?: string;
+    items?: { value: string; label: string }[];
   }[];
   onSubmit: (data: any) => void;
-  onCancel: () => void;
+  onCancel?: () => void;
   submitText?: string;
   cancelText?: string;
   title?: string;
@@ -42,25 +44,39 @@ export default function FormGenerator(props: Readonly<FormGeneratorProps>) {
     <form onSubmit={handleSubmit} className="form-generator">
       {title && <h1>{title}</h1>}
       <div className="form-generator-fields">
-        {fields?.map(({ name, label, type, required, value }) => {
+        {fields?.map(({ name, label, type, required, value, items }) => {
           return (
             <div key={name} className="form-generator-field">
               <label htmlFor={name}>{label}</label>
-              <Input
-                type={type}
-                name={name}
-                required={required}
-                variant="outlined"
-                placeholder={label}
-                defaultValue={value ?? ""}
-                disabled={disabled}
-              />
+              {type === "select" ? (
+                <Select
+                  name={name}
+                  required={required}
+                  variant="outlined"
+                  placeholder={label}
+                  defaultValue={value ?? ""}
+                  disabled={disabled}
+                  items={items ?? []}
+                />
+              ) : (
+                <Input
+                  type={type}
+                  name={name}
+                  required={required}
+                  variant="outlined"
+                  placeholder={label}
+                  defaultValue={value ?? ""}
+                  disabled={disabled}
+                />
+              )}
             </div>
           );
         })}
       </div>
       <Button label={submitText} disabled={disabled} />
-      <Button label={cancelText} variant="secondary" type="button" onClick={onCancel} />
+      {onCancel && (
+        <Button label={cancelText} variant="secondary" type="button" onClick={onCancel} />
+      )}
     </form>
   );
 }

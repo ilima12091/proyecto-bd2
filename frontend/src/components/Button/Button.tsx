@@ -10,12 +10,13 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export default function Button({
   label,
+  className,
   variant = "primary",
   disabled = false,
   ...props
 }: Readonly<ButtonProps>) {
   return (
-    <button className={`button button-${variant}`} {...props}>
+    <button className={`${className} button button-${variant}`} {...props}>
       {label}
     </button>
   );

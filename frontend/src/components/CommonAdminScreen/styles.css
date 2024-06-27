@@ -11,3 +11,7 @@
   align-self: flex-start;
   justify-self: flex-start;
 }
+
+.admin-screen-create-button {
+  align-self: flex-end;
+}

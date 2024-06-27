@@ -21,7 +21,6 @@ export const tableColumns = (
         label: "Editar",
         Icon: FaPen,
         onClick: (row: any) => {
-          console.log("Edit", row);
           onEdit?.(row);
         },
       },
@@ -29,7 +28,6 @@ export const tableColumns = (
         label: "Eliminar",
         Icon: FaRegTrashCan,
         onClick: (row: any) => {
-          console.log("Delete", row);
           onDelete?.(row);
         },
       },

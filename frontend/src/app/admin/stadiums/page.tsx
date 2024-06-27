@@ -11,24 +11,30 @@ import {
   updateStadium,
 } from "@/services/stadiumsService";
 import useGetData from "@/hooks/useGetData";
+import { getVenues } from "@/services/venuesService";
 
 export default function Stadiums() {
   const { data, refetchData, isLoading, error } = useGetData(
     async () => await getStadiums()
   );
 
+  const { data: venues, isLoading: isLoadingVenues } = useGetData(
+    async () => await getVenues()
+  );
+
   return (
     <CommonAdminScreen
       title="Estadios"
-      data={data ?? [{ name: "Centenario" }]}
+      data={data ?? [{ name: "Centenario", venueId: 1 }]}
       handleCreate={createStadium}
       handleUpdate={updateStadium}
       handleDelete={deleteStadium}
       formFields={stadiumFormFields}
       tableColumns={tableColumns}
       refetchData={refetchData}
-      isLoading={isLoading}
+      isLoading={isLoading || isLoadingVenues}
       error={error}
+      formFieldsProps={{ venues }}
     />
   );
 }

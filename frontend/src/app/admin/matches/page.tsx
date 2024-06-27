@@ -30,6 +30,8 @@ export default function Matches() {
             homeGoals: 2,
             awayGoals: 1,
             stage: "Grupo A",
+            homeId: 1,
+            awayId: 2,
           },
         ]
       }
