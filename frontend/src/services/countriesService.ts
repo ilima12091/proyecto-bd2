@@ -31,3 +31,15 @@ export async function deleteCountry(countryId: number): Promise<void> {
   });
   if (!response.ok) throw new Error("Error deleting country");
 }
+
+export async function createCountry(countryData: Country): Promise<void> {
+  delete countryData?.id;
+  const response = await fetch(`${BASE_URL}/countries`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ countryData }),
+  });
+  if (!response.ok) throw new Error("Error creating country");
+}

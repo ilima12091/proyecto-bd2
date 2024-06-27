@@ -28,3 +28,15 @@ export async function deleteVenue(venueId: number): Promise<void> {
   });
   if (!response.ok) throw new Error("Error deleting venue");
 }
+
+export async function createVenue(venueData: Venue): Promise<void> {
+  delete venueData?.id;
+  const response = await fetch(`${BASE_URL}/venues`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ venueData }),
+  });
+  if (!response.ok) throw new Error("Error creating venue");
+}

@@ -28,3 +28,15 @@ export async function deleteCareer(careerId: number) {
   });
   if (!response.ok) throw new Error("Error deleting career");
 }
+
+export async function createCareer(careerData: Career) {
+  delete careerData?.id;
+  const response = await fetch(`${BASE_URL}/careers`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ careerData }),
+  });
+  if (!response.ok) throw new Error("Error creating career");
+}

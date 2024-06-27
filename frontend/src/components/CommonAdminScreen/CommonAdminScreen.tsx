@@ -9,11 +9,13 @@ import ErrorAlert from "../ErrorAlert/ErrorAlert";
 import Spinner from "../Spinner/Spinner";
 
 import "./styles.css";
+import Button from "../Button/Button";
 
 type CommonAdminScreenProps = {
   title: string;
   handleUpdate: (id: number, values: any) => Promise<void>;
   handleDelete: (id: number) => Promise<void>;
+  handleCreate: (values: any) => Promise<void>;
   formFields: (row: any) => any;
   tableColumns: (onEdit: (row: any) => void, onDelete: (row: any) => void) => any;
   data: any[];
@@ -32,6 +34,7 @@ export default function CommonAdminScreen({
   refetchData,
   isLoading,
   error,
+  handleCreate,
 }: Readonly<CommonAdminScreenProps>) {
   // TODO: Eliminar cuando se conecte al backend correctamente
   error = false;
@@ -45,6 +48,28 @@ export default function CommonAdminScreen({
     } catch (error) {
       toast.error("Error al editar");
     }
+  };
+
+  const create = async (values: any) => {
+    try {
+      await handleCreate(values);
+      toast.success("Creado correctamente");
+      refetchData();
+    } catch (error) {
+      toast.error("Error al crear");
+    }
+  };
+
+  const onCreate = () => {
+    openModal(
+      <FormGenerator
+        title="Crear"
+        fields={formFields({})}
+        onSubmit={(data: any) => create(data)}
+        onCancel={closeModal}
+        disabled={isLoading}
+      />
+    );
   };
 
   const onEdit = (row: any) => {
@@ -72,8 +97,11 @@ export default function CommonAdminScreen({
     <ProtectedRoute>
       <main className="admin-screen">
         <h1 className="admin-screen-title">{title}</h1>
+        <Button label="Crear" onClick={onCreate} />
         {isLoading && <Spinner />}
-        {error && <ErrorAlert errorText="Error al cargar los datos" />}
+        {error && (
+          <ErrorAlert errorText="Error al cargar los datos" retry={refetchData} />
+        )}
         {!error && !isLoading && (
           <Table columns={tableColumns(onEdit, onDelete)} data={data} />
         )}

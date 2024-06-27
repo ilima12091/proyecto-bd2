@@ -3,7 +3,12 @@
 import React from "react";
 import { venueFormFields } from "./data/venue-form-fields";
 import { tableColumns } from "./data/table-columns";
-import { deleteVenue, getVenues, updateVenue } from "@/services/venuesService";
+import {
+  createVenue,
+  deleteVenue,
+  getVenues,
+  updateVenue,
+} from "@/services/venuesService";
 import CommonAdminScreen from "@/components/CommonAdminScreen/CommonAdminScreen";
 import useGetData from "@/hooks/useGetData";
 
@@ -16,6 +21,7 @@ export default function Venues() {
     <CommonAdminScreen
       title="Sedes"
       data={data ?? [{ city: "Montevideo", state: "Montevideo" }]}
+      handleCreate={createVenue}
       handleUpdate={updateVenue}
       handleDelete={deleteVenue}
       formFields={venueFormFields}

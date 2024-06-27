@@ -28,3 +28,15 @@ export async function deleteAdmin(adminId: number) {
   });
   if (!response.ok) throw new Error("Error deleting admin");
 }
+
+export async function createAdmin(adminData: Admin) {
+  delete adminData?.id;
+  const response = await fetch(`${BASE_URL}/admins`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ adminData }),
+  });
+  if (!response.ok) throw new Error("Error creating admin");
+}

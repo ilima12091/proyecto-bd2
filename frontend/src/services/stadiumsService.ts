@@ -31,3 +31,15 @@ export async function deleteStadium(stadiumId: number): Promise<void> {
   });
   if (!response.ok) throw new Error("Error deleting stadium");
 }
+
+export async function createStadium(stadiumData: Stadium): Promise<void> {
+  delete stadiumData?.id;
+  const response = await fetch(`${BASE_URL}/stadiums`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ stadiumData }),
+  });
+  if (!response.ok) throw new Error("Error creating stadium");
+}

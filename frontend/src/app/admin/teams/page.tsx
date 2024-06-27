@@ -2,7 +2,7 @@
 
 import React from "react";
 import { tableColumns } from "./data/table-columns";
-import { deleteTeam, getTeams, updateTeam } from "@/services/teamsService";
+import { createTeam, deleteTeam, getTeams, updateTeam } from "@/services/teamsService";
 import { teamFormFields } from "./data/team-form-fields";
 import CommonAdminScreen from "@/components/CommonAdminScreen/CommonAdminScreen";
 import useGetData from "@/hooks/useGetData";
@@ -24,6 +24,7 @@ export default function Teams() {
           },
         ]
       }
+      handleCreate={createTeam}
       handleUpdate={updateTeam}
       handleDelete={deleteTeam}
       formFields={teamFormFields}

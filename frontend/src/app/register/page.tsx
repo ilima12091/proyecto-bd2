@@ -85,6 +85,20 @@ export default function Register() {
           name="identificationId"
           required
         />
+        <Input
+          variant="outlined"
+          type="text"
+          placeholder="Campeón"
+          name="champion"
+          required
+        />
+        <Input
+          variant="outlined"
+          type="text"
+          placeholder="Subcampeón"
+          name="runnerUp"
+          required
+        />
         <Button type="submit" label="Registrarse" disabled={isLoading} />
       </form>
       <p>

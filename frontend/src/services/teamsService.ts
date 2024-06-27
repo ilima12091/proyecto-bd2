@@ -28,3 +28,15 @@ export async function deleteTeam(teamId: number): Promise<void> {
   });
   if (!response.ok) throw new Error("Error deleting team");
 }
+
+export async function createTeam(teamData: Team): Promise<void> {
+  delete teamData?.id;
+  const response = await fetch(`${BASE_URL}/teams`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ teamData }),
+  });
+  if (!response.ok) throw new Error("Error creating team");
+}

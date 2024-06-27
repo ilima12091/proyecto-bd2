@@ -3,7 +3,12 @@
 import React from "react";
 import { tableColumns } from "./data/table-columns";
 import { countryFormFields } from "./data/country-form-fields";
-import { deleteCountry, getCountries, updateCountry } from "@/services/countriesService";
+import {
+  createCountry,
+  deleteCountry,
+  getCountries,
+  updateCountry,
+} from "@/services/countriesService";
 import CommonAdminScreen from "@/components/CommonAdminScreen/CommonAdminScreen";
 import useGetData from "@/hooks/useGetData";
 
@@ -23,6 +28,7 @@ export default function Countries() {
           },
         ]
       }
+      handleCreate={createCountry}
       handleUpdate={updateCountry}
       handleDelete={deleteCountry}
       formFields={countryFormFields}

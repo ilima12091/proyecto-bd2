@@ -3,7 +3,12 @@
 import React from "react";
 import { tableColumns } from "./data/table-columns";
 import { matchFormFields } from "./data/match-form-fields";
-import { deleteMatch, getMatches, updateMatch } from "@/services/matchesService";
+import {
+  createMatch,
+  deleteMatch,
+  getMatches,
+  updateMatch,
+} from "@/services/matchesService";
 import CommonAdminScreen from "@/components/CommonAdminScreen/CommonAdminScreen";
 import useGetData from "@/hooks/useGetData";
 
@@ -28,6 +33,7 @@ export default function Matches() {
           },
         ]
       }
+      handleCreate={createMatch}
       handleUpdate={updateMatch}
       handleDelete={deleteMatch}
       formFields={matchFormFields}

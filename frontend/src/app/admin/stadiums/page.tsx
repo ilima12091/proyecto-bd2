@@ -4,7 +4,12 @@ import React from "react";
 import { stadiumFormFields } from "./data/stadium-form-fields";
 import { tableColumns } from "./data/table-columns";
 import CommonAdminScreen from "@/components/CommonAdminScreen/CommonAdminScreen";
-import { deleteStadium, getStadiums, updateStadium } from "@/services/stadiumsService";
+import {
+  createStadium,
+  deleteStadium,
+  getStadiums,
+  updateStadium,
+} from "@/services/stadiumsService";
 import useGetData from "@/hooks/useGetData";
 
 export default function Stadiums() {
@@ -16,6 +21,7 @@ export default function Stadiums() {
     <CommonAdminScreen
       title="Estadios"
       data={data ?? [{ name: "Centenario" }]}
+      handleCreate={createStadium}
       handleUpdate={updateStadium}
       handleDelete={deleteStadium}
       formFields={stadiumFormFields}

@@ -3,7 +3,12 @@
 import React from "react";
 import { adminFormFields } from "./data/admin-form-fields";
 import { tableColumns } from "./data/table-columns";
-import { deleteAdmin, getAdmins, updateAdmin } from "@/services/adminsService";
+import {
+  createAdmin,
+  deleteAdmin,
+  getAdmins,
+  updateAdmin,
+} from "@/services/adminsService";
 import CommonAdminScreen from "@/components/CommonAdminScreen/CommonAdminScreen";
 import useGetData from "@/hooks/useGetData";
 
@@ -26,6 +31,7 @@ export default function Venues() {
           },
         ]
       }
+      handleCreate={createAdmin}
       handleUpdate={updateAdmin}
       handleDelete={deleteAdmin}
       formFields={adminFormFields}

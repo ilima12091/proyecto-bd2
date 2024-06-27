@@ -28,3 +28,15 @@ export async function deleteMatch(matchId: number): Promise<void> {
   });
   if (!response.ok) throw new Error("Error deleting match");
 }
+
+export async function createMatch(matchData: Match): Promise<void> {
+  delete matchData?.id;
+  const response = await fetch(`${BASE_URL}/matches`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ matchData }),
+  });
+  if (!response.ok) throw new Error("Error creating match");
+}
