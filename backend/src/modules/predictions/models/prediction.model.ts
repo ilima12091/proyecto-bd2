@@ -1,10 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PoolClient } from 'pg';
 import { Prediction } from '../types/Prediction';
+import { MatchModel } from 'src/modules/admin/models/match.model';
 
 @Injectable()
 export class PredictionModel {
-  constructor(@Inject('PG_CONNECTION') private readonly pgClient: PoolClient) {}
+  constructor(@Inject('PG_CONNECTION') private readonly pgClient: PoolClient,
+              private readonly matchModel: MatchModel) {}
 
   async getPredictionsByUserId(userId: number): Promise<Prediction[]> {
     const { rows } = await this.pgClient.query(
@@ -90,5 +92,60 @@ export class PredictionModel {
       `,
       [runnerUpId, userId]
     )
+  }
+
+  async insertMatchPrediction(
+    matchId: number,
+    userId: number,
+    userLocalGoals: number,
+    userAwayGoals: number
+  ) {
+    await this.pgClient.query(
+      `
+        INSERT INTO predice
+        (idalumno, idpartido, goleslocal, golesvisitante)
+        VALUES($1, $2, $3, $4);
+      `,
+      [userId, matchId, userLocalGoals, userAwayGoals]
+    )
+  }
+
+  async updatePredictionPoints(
+    matchId: number,
+    userId: number,
+    userLocalGoals: number,
+    userAwayGoals: number
+  ) {
+    var match = await this.matchModel.getById(matchId);
+    var points = this.getPredictionPoints(match.goleslocal, match.golesvisitante,
+      userLocalGoals, userAwayGoals);
+    await this.pgClient.query(
+      `
+        UPDATE predice
+        SET puntosobtenidos=$1
+        AND idalumno=$2 
+        AND idpartido=$3;
+      `,
+      [points, userId, matchId]
+    )
+  }
+
+  async getPredictionPoints(
+    matchLGoals: number,
+    matchAGoals: number,
+    predictedLGoals: number,
+    predictedAGoals: number
+  ) : Promise<number> {
+    if (matchLGoals === predictedLGoals && matchAGoals === predictedAGoals) {
+      return 4;
+    }
+    
+    if ((matchLGoals >= matchAGoals && predictedLGoals >= predictedAGoals) ||
+        (matchLGoals <= matchAGoals && predictedLGoals <= predictedAGoals) ||
+        (matchLGoals === matchAGoals && predictedLGoals === predictedAGoals)) {
+      return 2;
+    }
+  
+    return 0;
   }
 }

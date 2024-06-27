@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { PredictionsService } from '../../services/predictions/predictions.service';
 import { CreatePredictionDto } from '../../dtos/create-prediction.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Predictions')
 @Controller('users/:id/predictions')
 export class PredictionsController {
   constructor(private predictionsService: PredictionsService) {}
