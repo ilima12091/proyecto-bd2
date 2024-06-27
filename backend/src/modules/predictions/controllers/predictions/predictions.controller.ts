@@ -35,11 +35,12 @@ export class PredictionsController {
   async createChampionAndRunnerUpPrediction(
     @Param('id') userId: number,
     @Param('championId') championId: number,
-    @Param('runnerUpId') runnerUpId: number) {
+    @Param('runnerUpId') runnerUpId: number,
+  ) {
     return await this.predictionsService.createChampionAndRunnerUpPrediction(
       userId,
       championId,
-      runnerUpId
+      runnerUpId,
     );
   }
 }

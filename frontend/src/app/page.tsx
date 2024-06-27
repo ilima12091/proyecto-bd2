@@ -3,17 +3,22 @@
 import List from "@/components/List/List";
 import PredictionItem from "./components/PredictionItem/PredictionItem";
 import ErrorAlert from "@/components/ErrorAlert/ErrorAlert";
-import useGetPredictions from "@/hooks/useGetPredictions";
-import "./styles.css";
 import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
+import useGetData from "@/hooks/useGetData";
+import { getPredictionsByUserId } from "@/services/predictionsService";
+import Spinner from "@/components/Spinner/Spinner";
+
+import "./styles.css";
 
 export default function Home() {
-  const { error, data, isLoading, isLoaded, getPredictions } = useGetPredictions(1);
+  const { error, data, isLoading, isLoaded, refetchData } = useGetData(
+    async () => await getPredictionsByUserId(1)
+  );
 
   return (
     <ProtectedRoute>
-      <main className="predictions">
-        {isLoading && <p>Cargando partidos...</p>}
+      <main className="page-container">
+        {isLoading && <Spinner />}
         {error && <ErrorAlert errorText="Error cargando partidos" />}
         {isLoaded && !error && (
           <>
@@ -24,7 +29,7 @@ export default function Home() {
                 ItemComponent={PredictionItem}
                 className="predictions-list"
                 itemProps={{
-                  refetchData: getPredictions,
+                  refetchData,
                 }}
               />
             ) : (

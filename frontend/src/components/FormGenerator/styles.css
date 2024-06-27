@@ -1,0 +1,20 @@
+.form-generator {
+  color: var(--black);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-generator-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-generator-field {
+  display: flex;
+  flex-direction: column;
+  color: var(--black);
+  color-scheme: light;
+  gap: 0.5rem;
+}

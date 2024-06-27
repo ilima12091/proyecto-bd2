@@ -3,11 +3,12 @@ import { PoolClient } from 'pg';
 import { Prediction } from '../types/Prediction';
 import { MatchModel } from 'src/modules/admin/models/match.model';
 import { Predice } from '../types/predice.type';
-
 @Injectable()
 export class PredictionModel {
-  constructor(@Inject('PG_CONNECTION') private readonly pgClient: PoolClient,
-              private readonly matchModel: MatchModel) {}
+  constructor(
+    @Inject('PG_CONNECTION') private readonly pgClient: PoolClient,
+    private readonly matchModel: MatchModel,
+  ) {}
 
   async getPredictionsByUserId(userId: number): Promise<Prediction[]> {
     const { rows } = await this.pgClient.query(
@@ -93,22 +94,83 @@ export class PredictionModel {
   async createChampionAndRunnerUpPrediction(
     userId: number,
     championId: number,
-    runnerUpId: number
+    runnerUpId: number,
   ): Promise<void> {
     await this.pgClient.query(
       `
       INSERT INTO escampeon (idequipo, idalumno)
       VALUES ($1, $2);
       `,
-      [championId, userId]
-    )
+      [championId, userId],
+    );
     await this.pgClient.query(
       `
       INSERT INTO essubcampeon (idequipo, idalumno)
       VALUES ($1, $2);
       `,
-      [runnerUpId, userId]
-    )
+      [runnerUpId, userId],
+    );
+  }
+
+  async insertMatchPrediction(
+    matchId: number,
+    userId: number,
+    userLocalGoals: number,
+    userAwayGoals: number,
+  ) {
+    await this.pgClient.query(
+      `
+        INSERT INTO predice
+        (idalumno, idpartido, goleslocal, golesvisitante)
+        VALUES($1, $2, $3, $4);
+      `,
+      [userId, matchId, userLocalGoals, userAwayGoals],
+    );
+  }
+
+  async updatePredictionPoints(
+    matchId: number,
+    userId: number,
+    userLocalGoals: number,
+    userAwayGoals: number,
+  ) {
+    const match = await this.matchModel.getById(matchId);
+    const points = this.getPredictionPoints(
+      match.goleslocal,
+      match.golesvisitante,
+      userLocalGoals,
+      userAwayGoals,
+    );
+    await this.pgClient.query(
+      `
+        UPDATE predice
+        SET puntosobtenidos=$1
+        AND idalumno=$2 
+        AND idpartido=$3;
+      `,
+      [points, userId, matchId],
+    );
+  }
+
+  async getPredictionPoints(
+    matchLGoals: number,
+    matchAGoals: number,
+    predictedLGoals: number,
+    predictedAGoals: number,
+  ): Promise<number> {
+    if (matchLGoals === predictedLGoals && matchAGoals === predictedAGoals) {
+      return 4;
+    }
+
+    if (
+      (matchLGoals >= matchAGoals && predictedLGoals >= predictedAGoals) ||
+      (matchLGoals <= matchAGoals && predictedLGoals <= predictedAGoals) ||
+      (matchLGoals === matchAGoals && predictedLGoals === predictedAGoals)
+    ) {
+      return 2;
+    }
+
+    return 0;
   }
 
   async insertMatchPrediction(

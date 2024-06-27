@@ -6,10 +6,10 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { headerOptions } from "@/constants/headerOptions";
 import appLogo from "./../../../../public/app-logo.png";
-
-import "./styles.css";
 import Button from "@/components/Button/Button";
 import { useAuth } from "@/contexts/authContext";
+
+import "./styles.css";
 
 export default function Header() {
   const { logout } = useAuth();

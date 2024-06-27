@@ -1,0 +1,10 @@
+.player {
+  min-height: 50px;
+  background-color: var(--white);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  gap: 2rem;
+}
