@@ -2,7 +2,7 @@
 
 - Node, última versión
 - PostgreSQL, última versión
-- Asegurarse de tener tanto el puerto 3000 como el puerto 3002 disponibles
+- Asegurarse de tener tanto el puerto 3001 como el puerto 3002 disponibles
 
 # Configuración
 
@@ -10,19 +10,18 @@
 2. Crear la base de datos `proyectobd2` dentro del contenedor generado
 3. Tras crear una base de datos con PostgreSQL, crear un archivo .env en el directorio _backend_
 4. En el archivo .env, cargar los datos de conexión a la base de datos, formato del archivo:
-   js
-
-- DATABASE_USER=usuarioPostgres
-- DATABASE_PASSWORD=contraseñaPostgres
-- DATABASE_HOST=localhost
-- DATABASE_NAME=nombreBD
-- DATABASE_PORT=puertoBD
-
-3. Abrir la terminal y posicionarse en los directorios _backend_ y _frontend_, en ambos directorios instalar las dependencias con npm i.
+```js
+DATABASE_USER=usuarioPostgres
+DATABASE_PASSWORD=contraseñaPostgres
+DATABASE_HOST=localhost
+DATABASE_NAME=nombreBD
+DATABASE_PORT=puertoBD
+```
+3. Abrir la terminal y posicionarse en los directorios _backend_ y _frontend_, en ambos directorios instalar las dependencias con `npm i`.
 
 # Ejecutar el proyecto
 
-- Copiar y pegar el contenido del archivo `ddl.sql` (`/backend/db/ddl.sql`) dentro de la consola de postgreSQL para generar las tablas y algunos inserts de prueba
+- Copiar y pegar el contenido del archivo `ddl.sql` (`/backend/db/ddl.sql`) dentro de la consola de postgreSQL (o, más cómodamente, ejecutando el script en DBeaver) para generar las tablas y algunos inserts de prueba
 
 - Abrir una consola, moverse a la carpeta de `frontend`, ejecutar `npm i` en caso de no haberlo hecho y ejecutar `npm run dev`
 
