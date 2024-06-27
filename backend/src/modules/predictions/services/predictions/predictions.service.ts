@@ -48,4 +48,12 @@ export class PredictionsService {
       runnerUpId
     );
   }
+
+  async loadPredictionPoints(
+    userId: number,
+    userLocalGoals: number,
+    userAwayGoals: number
+  ) {
+
+  }
 }

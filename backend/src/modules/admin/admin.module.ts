@@ -9,18 +9,24 @@ import { CountryModel } from './models/country.model';
 import { CampusController } from './controllers/campus/campus.controller';
 import { CampusService } from './services/campus/campus.service';
 import { CampusModel } from './models/campus.model';
+import { MatchController } from './controllers/match/match.controller';
+import { MatchService } from './services/match/match.service';
+import { MatchModel } from './models/match.model';
 
 @Module({
   imports: [DatabaseModule],
+  exports: [MatchModel],
   controllers: [
     AdminController, 
     CountryController,
-    CampusController
+    CampusController,
+    MatchController
   ],
   providers: [
     AdminService, AdminModel,
     CountryService, CountryModel,
-    CampusService, CampusModel
+    CampusService, CampusModel,
+    MatchService, MatchModel
   ],
 })
 export class AdminModule {}

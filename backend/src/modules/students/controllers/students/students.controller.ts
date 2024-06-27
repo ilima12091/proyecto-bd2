@@ -4,20 +4,20 @@ import { CreateStudentDTO } from '../../dtos/create-student.dto';
 
 @Controller('students')
 export class StudentsController {
-    constructor(private adminService: StudentsService) {}
+    constructor(private studentService: StudentsService) {}
 
     @Get()
     async getAll() {
-    return await this.adminService.getAll();
+    return await this.studentService.getAll();
     }
 
     @Post()
     async create(@Body() createAdminDto: CreateStudentDTO) {
-    return await this.adminService.create(createAdminDto);
+    return await this.studentService.create(createAdminDto);
     }
 
     @Delete('/:id')
     async delete(@Param('id') id: number) {
-    return await this.adminService.delete(id);
+    return await this.studentService.delete(id);
     }
 }
