@@ -7,7 +7,7 @@ export default function useRequest(requestFunction: (...params: any[]) => Promis
     isLoading: false,
   });
 
-  const executeRequest = async (...params: any[]) => {
+  const executeRequest = async (...params: any) => {
     setRequestData({ data: null, error: false, isLoading: true });
 
     try {

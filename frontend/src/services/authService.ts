@@ -23,7 +23,7 @@ export const register = async (
   champion: string,
   runnerUp: string
 ) => {
-  const response = await fetch(`${BASE_URL}/register`, {
+  const response = await fetch(`${BASE_URL}/students`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

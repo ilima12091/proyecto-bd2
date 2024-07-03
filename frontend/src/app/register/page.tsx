@@ -5,26 +5,20 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/authContext";
 import appLogo from "./../../../public/app-logo.png";
 import Link from "next/link";
-import useRequest from "@/hooks/useRequest";
 import { register } from "@/services/authService";
 import toast from "react-hot-toast";
 import FormGenerator from "@/components/FormGenerator/FormGenerator";
 import { registerFormFields } from "./data/register-form-fields";
+import { getTeams } from "@/services/teamsService";
+import useGetData from "@/hooks/useGetData";
 
 import "./styles.css";
-import useGetData from "@/hooks/useGetData";
-import { getTeams } from "@/services/teamsService";
 
 export default function Register() {
   const { user } = useAuth();
   const router = useRouter();
 
   const { data: teams } = useGetData(async () => await getTeams());
-
-  const { isLoading, executeRequest } = useRequest(
-    async (name, surname, email, password, identificationId, champion, runnerUp) =>
-      await register(name, surname, email, password, identificationId, champion, runnerUp)
-  );
 
   if (user) router.push("/");
 
@@ -33,7 +27,7 @@ export default function Register() {
       if (values?.password !== values?.passwordConfirmation)
         return toast.error("Las contraseñas no coinciden");
 
-      await executeRequest(
+      await register(
         values?.name,
         values?.surname,
         values?.email,
@@ -42,6 +36,7 @@ export default function Register() {
         values?.champion,
         values?.runnerUp
       );
+
       toast.success("Te has registrado exitosamente");
       router.push("/login");
     } catch (error) {
@@ -64,7 +59,6 @@ export default function Register() {
             ]
           )}
           onSubmit={handleRegister}
-          disabled={isLoading}
         />
       </div>
       <p>
