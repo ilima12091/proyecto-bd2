@@ -23,7 +23,7 @@ CREATE TABLE Usuario (
     fechaCreacion DATE NOT NULL,
     nombre VARCHAR(50) NOT NULL,
     apellido VARCHAR(50) NOT NULL,
-    contraseña VARCHAR(50) NOT NULL,
+    contraseña VARCHAR NOT NULL,
     email VARCHAR(75) NOT NULL UNIQUE
 );
 
