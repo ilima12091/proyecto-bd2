@@ -20,7 +20,7 @@ export class StudentsModel {
     password: string,
   ): Promise<Student> {
     const userInsertResult = await this.pgClient.query(
-      'INSERT INTO usuario (fechacreacion, nombre, apellido, email, contraseña) VALUES (CURRENT_TIMESTAMP, $1, $2, $3, $4) RETURNING *;',
+      'INSERT INTO usuario (fechacreacion, nombre, apellido, email, contraseña) VALUES (CURRENT_TIMESTAMP, $1, $2, $3, crypt($4, gen_salt(\'bf\'))) RETURNING *;',
       [name, surname, email, password],
     );
     const userData = userInsertResult.rows[0];
