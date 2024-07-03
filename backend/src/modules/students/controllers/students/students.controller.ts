@@ -12,8 +12,8 @@ export class StudentsController {
     }
 
     @Post()
-    async create(@Body() createAdminDto: CreateStudentDTO) {
-    return await this.studentService.create(createAdminDto);
+    async create(@Body() createStudentDto: CreateStudentDTO) {
+    return await this.studentService.create(createStudentDto);
     }
 
     @Delete('/:id')

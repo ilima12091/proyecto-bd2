@@ -11,7 +11,7 @@ import { StudentsModel } from './models/students.model';
   imports: [DatabaseModule],
   controllers: [
     LeaderboardController,
-    StudentsController
+    StudentsController,
   ],
   providers: [
     LeaderboardService, LeaderboardModel,
