@@ -2,33 +2,41 @@ export const matchFormFields = (row: any, data: any) => {
   const parsedTeams = data?.teams?.map(({ name, id }) => ({
     label: name,
     value: id,
-  })) ?? [
-    {
-      label: "Uruguay",
-      value: 1,
-    },
-    {
-      label: "Argentina",
-      value: 2,
-    },
-  ];
+  }));
+
+  const parsedStadiums = data?.stadiums?.map(({ name, id }) => ({
+    label: name,
+    value: id,
+  }));
 
   return [
     {
       name: "home",
       label: "Local",
       type: "select",
-      value: row.homeId,
+      value: row.home,
       items: parsedTeams,
     },
     {
       name: "away",
       label: "Visitante",
       type: "select",
-      value: row.awayId,
+      value: row.away,
       items: parsedTeams,
     },
-    { name: "date", label: "Fecha", type: "date", value: row.date },
+    {
+      name: "stadiumId",
+      label: "Estadio",
+      type: "select",
+      value: row.stadiumId,
+      items: parsedStadiums,
+    },
+    {
+      name: "date",
+      label: "Fecha",
+      type: "date",
+      value: row.date ? row?.date?.split("T")?.[0] : "",
+    },
     {
       name: "homeGoals",
       label: "Goles local",

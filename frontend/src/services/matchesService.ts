@@ -13,11 +13,11 @@ export async function getMatches(): Promise<Match[]> {
 export async function updateMatch(matchId: number, matchData: Match): Promise<void> {
   delete matchData?.id;
   const response = await fetch(`${BASE_URL}/matches/${matchId}`, {
-    method: "PATCH",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ matchData }),
+    body: JSON.stringify({ ...matchData }),
   });
   if (!response.ok) throw new Error("Error updating match");
 }
@@ -36,7 +36,7 @@ export async function createMatch(matchData: Match): Promise<void> {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ matchData }),
+    body: JSON.stringify({ ...matchData }),
   });
   if (!response.ok) throw new Error("Error creating match");
 }

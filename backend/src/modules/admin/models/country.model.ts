@@ -7,25 +7,19 @@ export class CountryModel {
   constructor(@Inject('PG_CONNECTION') private readonly pgClient: PoolClient) {}
 
   async getAll(): Promise<Country[]> {
-    const { rows } = await this.pgClient.query(
-      'SELECT * FROM pais;',
-    );
+    const { rows } = await this.pgClient.query('SELECT * FROM pais;');
     return rows;
   }
 
   async getById(id: number): Promise<Country> {
     const { rows } = await this.pgClient.query(
       'SELECT * FROM pais WHERE id = $1;',
-      [id]
+      [id],
     );
-    console.log(rows);
     return rows[0];
   }
 
-  async create(
-    name: string,
-    confederation: string
-  ): Promise<Country> {
+  async create(name: string, confederation: string): Promise<Country> {
     const countryInsertResult = await this.pgClient.query(
       'INSERT INTO pais (nombre, confederacion) VALUES($1, $2) RETURNING *;',
       [name, confederation],
@@ -41,7 +35,7 @@ export class CountryModel {
   async update(
     id: number,
     name: string,
-    confederation: string
+    confederation: string,
   ): Promise<Country> {
     const countryUpdateResult = await this.pgClient.query(
       'UPDATE pais SET nombre = $1, confederacion = $2 WHERE id = $3 RETURNING *;',
@@ -52,7 +46,7 @@ export class CountryModel {
   }
 
   async delete(id: number): Promise<Country> {
-    const {rows} = await this.pgClient.query(
+    const { rows } = await this.pgClient.query(
       'DELETE FROM pais WHERE id = $1 RETURNING *;',
       [id],
     );

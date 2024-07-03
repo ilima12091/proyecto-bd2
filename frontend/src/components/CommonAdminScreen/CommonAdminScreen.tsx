@@ -47,6 +47,7 @@ export default function CommonAdminScreen({
       await handleUpdate(id, values);
       toast.success("Editado correctamente");
       refetchData();
+      closeModal();
     } catch (error) {
       toast.error("Error al editar");
     }
@@ -57,6 +58,7 @@ export default function CommonAdminScreen({
       await handleCreate(values);
       toast.success("Creado correctamente");
       refetchData();
+      closeModal();
     } catch (error) {
       toast.error("Error al crear");
     }
@@ -89,6 +91,7 @@ export default function CommonAdminScreen({
   const onDelete = async (row: any) => {
     try {
       await handleDelete(row.id);
+      refetchData();
       toast.success("Eliminado correctamente");
     } catch (error) {
       toast.error("Error al eliminar");

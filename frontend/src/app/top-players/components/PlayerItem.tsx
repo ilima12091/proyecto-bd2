@@ -13,7 +13,7 @@ export default function PlayerItem(props: Readonly<PlayerItemProps>) {
   return (
     <div className="player">
       <p>{`${index + 1}. ${name}`}</p>
-      <p>{totalPoints} PTS</p>
+      <p>{totalPoints ?? 0} PTS</p>
     </div>
   );
 }

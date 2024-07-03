@@ -6,4 +6,6 @@ export type Match = {
   homeGoals: number;
   awayGoals: number;
   stage: string;
+  homeName?: string;
+  awayName?: string;
 };

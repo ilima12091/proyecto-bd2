@@ -21,9 +21,8 @@ export class MatchModel {
   async getById(id: number): Promise<Match> {
     const { rows } = await this.pgClient.query(
       'SELECT * FROM partido WHERE id = $1;',
-      [id]
+      [id],
     );
-    console.log(rows);
     return rows[0];
   }
 
@@ -32,22 +31,22 @@ export class MatchModel {
     stage: string,
     stadiumId: number,
     localTeamId: number,
-    awayTeamId: number
+    awayTeamId: number,
   ): Promise<void> {
     const { rows } = await this.pgClient.query(
-        `
+      `
             INSERT INTO partido
             (fecha, etapa, idestadio, idequipolocal, idequipovisitante)
             VALUES($1, $2, $3, $4, $5);
         `,
-        [date, stage, stadiumId, localTeamId, awayTeamId]
+      [date, stage, stadiumId, localTeamId, awayTeamId],
     );
   }
 
   async insertResult(
     matchId: number,
     localGoals: number,
-    awayGoals: number
+    awayGoals: number,
   ): Promise<void> {
     await this.pgClient.query(
       `
@@ -62,7 +61,7 @@ export class MatchModel {
   async update(
     id: number,
     name: string,
-    confederation: string
+    confederation: string,
   ): Promise<Country> {
     const countryUpdateResult = await this.pgClient.query(
       'UPDATE pais SET nombre = $1, confederacion = $2 WHERE id = $3 RETURNING *;',

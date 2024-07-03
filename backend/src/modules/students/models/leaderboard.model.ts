@@ -8,11 +8,11 @@ export class LeaderboardModel {
 
   async getStudentsPoints(): Promise<StudentLeaderboard[]> {
     const { rows } = await this.pgClient.query(
-      'SELECT usuario.nombre, usuario.apellido, SUM(predice.puntosobtenidos) AS totalPuntos ' +
-      'FROM predice ' +
-      'JOIN usuario ON predice.idalumno = usuario.id ' +
-      'GROUP BY predice.idalumno, usuario.nombre, usuario.apellido ' +
-      'ORDER BY totalPuntos desc;',
+      'SELECT usuario.nombre as name, usuario.apellido as surname, SUM(predice.puntosobtenidos) AS "totalPoints" ' +
+        'FROM predice ' +
+        'JOIN usuario ON predice.idalumno = usuario.id ' +
+        'GROUP BY predice.idalumno, usuario.nombre, usuario.apellido ' +
+        'ORDER BY "totalPoints" desc;',
     );
     return rows;
   }

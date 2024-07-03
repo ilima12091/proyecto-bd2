@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { LeaderboardService } from '../../services/leaderboard/leaderboard.service';
 import { ApiTags } from '@nestjs/swagger';
 

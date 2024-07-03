@@ -7,25 +7,22 @@ export class CampusModel {
   constructor(@Inject('PG_CONNECTION') private readonly pgClient: PoolClient) {}
 
   async getAll(): Promise<Campus[]> {
-    const { rows } = await this.pgClient.query(
-      'SELECT * FROM sede;',
-    );
+    const { rows } = await this.pgClient.query('SELECT * FROM sede;');
     return rows;
   }
 
   async getById(id: number): Promise<Campus> {
     const { rows } = await this.pgClient.query(
       'SELECT * FROM sede WHERE id = $1;',
-      [id]
+      [id],
     );
-    console.log(rows);
     return rows[0];
   }
 
   async create(
     city: string,
     state: string,
-    countryId: number
+    countryId: number,
   ): Promise<Campus> {
     const CampusInsertResult = await this.pgClient.query(
       'INSERT INTO sede (ciudad, estado, paisid) VALUES($1, $2, $3) RETURNING *;',
@@ -43,7 +40,7 @@ export class CampusModel {
     id: number,
     city: string,
     state: string,
-    countryId: number
+    countryId: number,
   ): Promise<Campus> {
     const CampusUpdateResult = await this.pgClient.query(
       'UPDATE sede SET ciudad = $1, estado = $2, paisid = $3 WHERE id = $4 RETURNING *;',
@@ -54,7 +51,7 @@ export class CampusModel {
   }
 
   async delete(id: number): Promise<Campus> {
-    const {rows} = await this.pgClient.query(
+    const { rows } = await this.pgClient.query(
       'DELETE FROM sede WHERE id = $1 RETURNING *;',
       [id],
     );

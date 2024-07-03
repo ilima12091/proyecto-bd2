@@ -12,9 +12,7 @@ import Spinner from "@/components/Spinner/Spinner";
 import "./styles.css";
 
 export default function TopPlayers() {
-  const { isLoading, isLoaded, data } = useGetData(async () => await getUsers());
-  //TODO: Eliminar cuando se conecte al backend
-  const error = false;
+  const { isLoading, isLoaded, data, error } = useGetData(async () => await getUsers());
 
   return (
     <ProtectedRoute>

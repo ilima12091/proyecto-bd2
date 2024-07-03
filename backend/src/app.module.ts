@@ -5,6 +5,7 @@ import { DatabaseModule } from './modules/database/database.module';
 import { StudentsModule } from './modules/students/students.module';
 import { PredictionsModule } from './modules/predictions/predictions.module';
 import { MatchesModule } from './modules/matches/matches.module';
+import { TeamsModule } from './modules/teams/teams.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,6 +16,7 @@ import { MatchesModule } from './modules/matches/matches.module';
     StudentsModule,
     PredictionsModule,
     MatchesModule,
+    TeamsModule,
   ],
   controllers: [],
   providers: [],

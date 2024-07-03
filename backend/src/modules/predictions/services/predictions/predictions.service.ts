@@ -5,8 +5,9 @@ import { MatchModel } from 'src/modules/admin/models/match.model';
 
 @Injectable()
 export class PredictionsService {
-  constructor(private predictionModel: PredictionModel,
-    private matchModel: MatchModel
+  constructor(
+    private predictionModel: PredictionModel,
+    private matchModel: MatchModel,
   ) {}
 
   async getPredictionsByUserId(userId: number) {
@@ -14,15 +15,15 @@ export class PredictionsService {
   }
 
   async calculatePoints(matchId: number) {
-    const predictions = await this.predictionModel.getPredictionIdByMatchId(matchId);
-    console.log("predict", predictions);
+    const predictions =
+      await this.predictionModel.getPredictionIdByMatchId(matchId);
     for (const prediction of predictions) {
       await this.predictionModel.updatePredictionPoints(
         matchId,
         prediction.idalumno,
         prediction.goleslocal,
-        prediction.golesvisitante
-      )
+        prediction.golesvisitante,
+      );
     }
   }
 
@@ -32,10 +33,11 @@ export class PredictionsService {
   ) {
     const { homeGoals, awayGoals, matchId } = createPredictionDto;
 
-    const predictionId = await this.predictionModel.getPredictionIdByMatchAndUserId(
-      userId,
-      matchId,
-    );
+    const predictionId =
+      await this.predictionModel.getPredictionIdByMatchAndUserId(
+        userId,
+        matchId,
+      );
 
     if (predictionId) {
       return await this.predictionModel.updatePrediction(
@@ -69,27 +71,27 @@ export class PredictionsService {
     matchId: number,
     userId: number,
     userLocalGoals: number,
-    userAwayGoals: number
+    userAwayGoals: number,
   ) {
     return await this.predictionModel.insertMatchPrediction(
       matchId,
       userId,
       userLocalGoals,
-      userAwayGoals
-    )    
+      userAwayGoals,
+    );
   }
 
   async updatePredictionPoints(
     matchId: number,
     userId: number,
     userLocalGoals: number,
-    userAwayGoals: number
+    userAwayGoals: number,
   ) {
     return await this.predictionModel.updatePredictionPoints(
       matchId,
       userId,
       userLocalGoals,
-      userAwayGoals
-    )    
+      userAwayGoals,
+    );
   }
 }

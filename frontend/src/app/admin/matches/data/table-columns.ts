@@ -7,11 +7,11 @@ export const tableColumns = (
 ): TableColumn[] => [
   {
     label: "Local",
-    key: "home",
+    key: "homeName",
   },
   {
     label: "Visitante",
-    key: "away",
+    key: "awayName",
   },
   {
     label: "Fecha",

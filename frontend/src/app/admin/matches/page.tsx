@@ -11,30 +11,20 @@ import {
 } from "@/services/matchesService";
 import CommonAdminScreen from "@/components/CommonAdminScreen/CommonAdminScreen";
 import useGetData from "@/hooks/useGetData";
+import { getTeams } from "@/services/teamsService";
+import { getStadiums } from "@/services/stadiumsService";
 
 export default function Matches() {
   const { data, refetchData, isLoading, error } = useGetData(
     async () => await getMatches()
   );
+  const { data: teams } = useGetData(async () => await getTeams());
+  const { data: stadiums } = useGetData(async () => await getStadiums());
 
   return (
     <CommonAdminScreen
       title="Partidos"
-      data={
-        data ?? [
-          {
-            id: 1,
-            home: "Uruguay",
-            away: "Argentina",
-            date: "2021-10-10",
-            homeGoals: 2,
-            awayGoals: 1,
-            stage: "Grupo A",
-            homeId: 1,
-            awayId: 2,
-          },
-        ]
-      }
+      data={data}
       handleCreate={createMatch}
       handleUpdate={updateMatch}
       handleDelete={deleteMatch}
@@ -43,6 +33,10 @@ export default function Matches() {
       refetchData={refetchData}
       isLoading={isLoading}
       error={error}
+      formFieldsProps={{
+        teams,
+        stadiums,
+      }}
     />
   );
 }

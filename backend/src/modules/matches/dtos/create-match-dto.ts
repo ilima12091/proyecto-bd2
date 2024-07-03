@@ -1,31 +1,38 @@
-import { IsString, IsNotEmpty, IsNumber, IsDateString, IsOptional } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsNumberString,
+  ValidateIf,
+} from 'class-validator';
 
 export class CreateMatchDTO {
-    @IsDateString()
-    @IsNotEmpty()
-    fecha: string;
+  @IsNotEmpty()
+  date: string;
 
-    @IsString()
-    @IsNotEmpty()
-    etapa: string;
+  @IsString()
+  @IsNotEmpty()
+  stage: string;
 
-    @IsNumber()
-    @IsNotEmpty()
-    idEstadio: number;
+  @IsNumberString()
+  @IsNotEmpty()
+  stadiumId: number;
 
-    @IsNumber()
-    @IsNotEmpty()
-    idEquipoLocal: number;
+  @IsNumberString()
+  @IsNotEmpty()
+  home: number;
 
-    @IsNumber()
-    @IsNotEmpty()
-    idEquipoVisitante: number;
+  @IsNumberString()
+  @IsNotEmpty()
+  away: number;
 
-    @IsNumber()
-    @IsOptional()
-    golesLocal: number;
+  @ValidateIf((o) => o.homeGoals !== '')
+  @IsOptional()
+  @IsNumberString()
+  homeGoals: number;
 
-    @IsNumber()
-    @IsOptional()
-    golesVisitante: number;
+  @ValidateIf((o) => o.awayGoals !== '')
+  @IsOptional()
+  @IsNumberString()
+  awayGoals: number;
 }

@@ -188,10 +188,10 @@ INSERT INTO Estadio (nombre, idsede) VALUES
 ('Estadio Atanasio Girardot', 4);
 
 INSERT INTO Partido (fecha, etapa, idestadio , idequipolocal, idequipovisitante) VALUES
-('2024-06-26', 'Grupo A', 2, 2, 1),
-('2024-06-26', 'Grupo B', 4, 4, 3),
-('2024-06-28', 'Grupo C', 2, 3, 1),
-('2024-06-28', 'Grupo D', 4, 4, 2);
+('2024-07-10', 'Grupo A', 2, 2, 1),
+('2024-07-12', 'Grupo B', 4, 4, 3),
+('2024-07-10', 'Grupo C', 2, 3, 1),
+('2024-07-12', 'Grupo D', 4, 4, 2);
 
 INSERT INTO Partido (fecha, etapa, idestadio , idequipolocal, idequipovisitante, goleslocal, golesvisitante) VALUES
 ('2024-06-10', 'Grupo A', 1, 1, 2, 2, 1),

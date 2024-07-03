@@ -25,9 +25,7 @@ export class PredictionsController {
   }
 
   @Post('points/:matchId')
-  async calculatePredictionsPoints(
-    @Param('matchId') matchId: number
-  ) {
+  async calculatePredictionsPoints(@Param('matchId') matchId: number) {
     return await this.predictionsService.calculatePoints(matchId);
   }
 

@@ -31,18 +31,18 @@ export default function Table({ columns, data }: Readonly<TableProps>) {
         </thead>
       )}
       <tbody>
-        {data.length === 0 && (
+        {data?.length === 0 && (
           <tr>
             <td colSpan={columns.length + 1} className="table-no-data">
               <ErrorAlert errorText="No hay datos para mostrar" />
             </td>
           </tr>
         )}
-        {data.map((row) => (
+        {data?.map((row) => (
           <tr key={JSON.stringify(row)}>
             {filteredColumns.map(({ key }) => (
               <td key={key} className="table-data">
-                {row[key]}
+                {row[key] ?? "-"}
               </td>
             ))}
             {actions && (
