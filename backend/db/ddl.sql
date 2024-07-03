@@ -30,12 +30,12 @@ CREATE TABLE Usuario (
 -- Tablas para subtipos de Usuario
 CREATE TABLE Administrador (
     id SERIAL PRIMARY KEY,
-    usuarioId INT UNIQUE REFERENCES Usuario(id)
+    usuarioId INT UNIQUE REFERENCES Usuario(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Alumno (
     id SERIAL PRIMARY KEY,
-    usuarioId INT UNIQUE REFERENCES Usuario(id)
+    usuarioId INT UNIQUE REFERENCES Usuario(id) ON DELETE CASCADE
 );
 
 -- Tabla Area
@@ -49,13 +49,13 @@ CREATE TABLE Carrera (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     codigo VARCHAR(20) UNIQUE NOT NULL,
-    area INT REFERENCES Area(id)
+    area INT REFERENCES Area(id) ON DELETE SET NULL
 );
 
 -- Relación "pertenece" entre Alumno y Carrera
 CREATE TABLE Alumno_Carrera (
-    alumnoId INT REFERENCES Alumno(id),
-    carreraId INT REFERENCES Carrera(id),
+    alumnoId INT REFERENCES Alumno(id) ON DELETE CASCADE,
+    carreraId INT REFERENCES Carrera(id) ON DELETE CASCADE,
     PRIMARY KEY (alumnoId, carreraId)
 );
 
@@ -79,17 +79,14 @@ CREATE TABLE Sede (
     id SERIAL PRIMARY KEY,
     ciudad VARCHAR(50) NOT NULL,
     estado VARCHAR(50) NOT NULL,
-    paisId INT REFERENCES Pais(id)
+    paisId INT REFERENCES Pais(id) ON DELETE CASCADE
 );
-
--- Relación "pertenece" entre Sede y País
-ALTER TABLE Sede ADD CONSTRAINT fk_pais FOREIGN KEY (paisId) REFERENCES Pais(id);
 
 -- Tabla Estadio
 CREATE TABLE Estadio (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
-    idSede INT REFERENCES Sede(id)
+    idSede INT REFERENCES Sede(id) ON DELETE CASCADE
 );
 
 -- Tabla Partido
@@ -97,9 +94,9 @@ CREATE TABLE Partido (
     id SERIAL PRIMARY KEY,
     fecha DATE NOT NULL,
     etapa VARCHAR(50) NOT NULL,
-    idEstadio INT REFERENCES Estadio(id),
-    idEquipoLocal INT REFERENCES Equipo(id),
-    idEquipoVisitante INT REFERENCES Equipo(id),
+    idEstadio INT REFERENCES Estadio(id) ON DELETE CASCADE,
+    idEquipoLocal INT REFERENCES Equipo(id) ON DELETE CASCADE,
+    idEquipoVisitante INT REFERENCES Equipo(id) ON DELETE CASCADE,
     golesLocal INT,
     golesVisitante INT
 );
@@ -107,8 +104,8 @@ CREATE TABLE Partido (
 -- Tabla Predice
 CREATE TABLE Predice (
     id SERIAL PRIMARY KEY,
-    idAlumno INT REFERENCES Alumno(id),
-    idPartido INT REFERENCES Partido(id),
+    idAlumno INT REFERENCES Alumno(id) ON DELETE CASCADE,
+    idPartido INT REFERENCES Partido(id) ON DELETE CASCADE,
     golesLocal INT,
     golesVisitante INT,
     puntosObtenidos INT DEFAULT 0,
@@ -118,15 +115,15 @@ CREATE TABLE Predice (
 -- Relaciones "Es Campeón" y "Es Subcampeón"
 CREATE TABLE EsCampeon (
     id SERIAL PRIMARY KEY,
-    idEquipo INT REFERENCES Equipo(id),
-    idAlumno INT REFERENCES Alumno(id),
+    idEquipo INT REFERENCES Equipo(id) ON DELETE CASCADE,
+    idAlumno INT REFERENCES Alumno(id) ON DELETE CASCADE,
     puntosObtenidos INT DEFAULT 0
 );
 
 CREATE TABLE EsSubcampeon (
     id SERIAL PRIMARY KEY,
-    idEquipo INT REFERENCES Equipo(id),
-    idAlumno INT REFERENCES Alumno(id),
+    idEquipo INT REFERENCES Equipo(id) ON DELETE CASCADE,
+    idAlumno INT REFERENCES Alumno(id) ON DELETE CASCADE,
     puntosObtenidos INT DEFAULT 0
 );
 
@@ -134,9 +131,10 @@ CREATE TABLE EsSubcampeon (
 CREATE TABLE Torneo (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
-    equipoId INT unique references Equipo(id)
+    equipoId INT UNIQUE REFERENCES Equipo(id) ON DELETE SET NULL
 );
 
+-- Insert sample data
 INSERT INTO Usuario (fechaCreacion, nombre, apellido, contraseña, email) VALUES
 ('2024-01-01', 'Carlos', 'Gomez', 'password123', 'carlos.gomez@example.com'),
 ('2024-01-02', 'Laura', 'Martinez', 'password456', 'laura.martinez@example.com'),
