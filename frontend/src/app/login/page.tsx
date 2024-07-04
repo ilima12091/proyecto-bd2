@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import appLogo from "./../../../public/app-logo.png";
 import Input from "@/components/form/Input/Input";
 import Button from "@/components/Button/Button";
-import useRequest from "@/hooks/useRequest";
 import { login } from "@/services/authService";
 
 import "./styles.css";
@@ -16,17 +15,10 @@ export default function Login() {
   const { login: loginAction, user, isAdmin } = useAuth();
   const router = useRouter();
 
-  const { executeRequest } = useRequest(
-    async (email, password) => await login(email, password)
-  );
-
   const handleLogin = async (event: any) => {
     event.preventDefault();
     try {
-      const result = await executeRequest(
-        event?.target?.email?.value,
-        event?.target?.password?.value
-      );
+      await login(event?.target?.email?.value, event?.target?.password?.value);
     } catch (error) {
       toast.error("Ocurrió un error al iniciar sesión, por favor intenta nuevamente");
       console.error(error);
